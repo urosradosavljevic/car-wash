@@ -1,16 +1,25 @@
 import Head from 'next/head'
+import { observer } from 'mobx-react'
 import styles from '../styles/Home.module.scss'
 import { AppProps } from 'next/app'
 import DatePicker from "react-datepicker"
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { OrderStoreContext } from '../stores/OrderStore'
+import { useRouter } from 'next/dist/client/router'
 
 interface IndexProps {
 
 }
 
-const Home: React.FC<AppProps> = () => {
+const Home: React.FC<AppProps> = observer(() => {
 
-  const [startDate, setStartDate] = useState(new Date());
+  const counterStore = useContext(OrderStoreContext)
+  const router = useRouter()
+
+  const setDate = (date: Date) => {
+    counterStore.date = date;
+    router.push("/timeline")
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -19,14 +28,17 @@ const Home: React.FC<AppProps> = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+        <h2 className={styles.title}>
           Car Wash Service
-        </h1>
+        </h2>
+        <h3 className={styles.subtitle}>
+          Select Date
+        </h3>
         <div className={styles.datepickerWrap}>
           <DatePicker
             disabledKeyboardNavigation
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
+            selected={counterStore.date}
+            onChange={(date: Date) => setDate(date)}
             monthsShown={2}
             // calendarClassName={styles.calendar}
             inline
@@ -41,7 +53,7 @@ const Home: React.FC<AppProps> = () => {
       </footer>
     </div>
   )
-}
+})
 
 
 export default Home;
