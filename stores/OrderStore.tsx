@@ -1,9 +1,17 @@
 import { observable } from "mobx"
-import { createContext } from "react";
 
 class OrderStore {
+    constructor(initialData = { date: new Date() }) {
+        this.date = initialData.date;
+    }
+
     @observable
-    date = new Date();
+    date: Date | undefined;
+
+    setDate(date: Date) {
+        this.date = date;
+    }
 }
 
-export const OrderStoreContext = createContext(new OrderStore());
+
+export default OrderStore;

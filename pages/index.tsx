@@ -1,23 +1,21 @@
 import Head from 'next/head'
-import { observer } from 'mobx-react'
+import { inject } from 'mobx-react'
+import { observer } from "mobx-react-lite";
 import styles from '../styles/Home.module.scss'
-import { AppProps } from 'next/app'
 import DatePicker from "react-datepicker"
-import { useState, useContext } from 'react'
-import { OrderStoreContext } from '../stores/OrderStore'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/router'
+import OrderStore from '../stores/OrderStore'
 
 interface IndexProps {
-
+  orderStore: OrderStore;
 }
 
-const Home: React.FC<AppProps> = observer(() => {
+const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }) => {
 
-  const counterStore = useContext(OrderStoreContext)
   const router = useRouter()
 
-  const setDate = (date: Date) => {
-    counterStore.date = date;
+  const setOrderDate = (date: Date) => {
+    orderStore.date = date
     router.push("/timeline")
   }
   return (
@@ -37,8 +35,8 @@ const Home: React.FC<AppProps> = observer(() => {
         <div className={styles.datepickerWrap}>
           <DatePicker
             disabledKeyboardNavigation
-            selected={counterStore.date}
-            onChange={(date: Date) => setDate(date)}
+            selected={orderStore?.date}
+            onChange={(date: Date) => setOrderDate(date)}
             monthsShown={2}
             // calendarClassName={styles.calendar}
             inline
@@ -47,13 +45,14 @@ const Home: React.FC<AppProps> = observer(() => {
 
         </div>
       </main>
-
+      {console.log("index orderStore", orderStore)}
       <footer className={styles.footer}>
         <img src="/car.svg" alt="Car Logo" className={styles.logo} />
+        <span>{orderStore?.date?.toString()}</span>
       </footer>
     </div>
   )
 })
-
+)
 
 export default Home;
