@@ -31,7 +31,6 @@ class CustomApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log("pageProps", pageProps);
 
     return (
       <Provider {...this.state}>

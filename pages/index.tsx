@@ -45,7 +45,6 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
 
         </div>
       </main>
-      {console.log("index orderStore", orderStore)}
       <footer className={styles.footer}>
         <img src="/car.svg" alt="Car Logo" className={styles.logo} />
         <span>{orderStore?.date?.toString()}</span>
