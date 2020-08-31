@@ -1,35 +1,60 @@
 import React, { useState } from 'react'
 import styles from '../styles/Timeline.module.scss'
-import { businessHours, day as todayOccupied } from "../data"
-// import { set, add } from 'date-fns'
+import { businessHours, day } from "../data"
+import { inject } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
+import OrderStore from '../stores/OrderStore'
 
 interface Props {
-    businessHours: {
-        open: number;
-        closed: number;
-    };
-    todayOccupied: any;
+    orderStore?: OrderStore;
 }
 
+export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
 
-export const Timeline: React.FC<Props> = ({ }) => {
-    console.log("***********************************")
     const [selectedInterval, setSelectedInterval] = useState("none")
-
+    const [todayOccupied, setTodayOccupied] = useState(day)
 
     const fillSlogan = () => [...Array(30)].map(_ => (
         <p>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
     ))
+    console.log(todayOccupied);
+
+    const hoursInterval = (treatment: any) => (treatment.start.hour + (treatment.start.minutes / 60))
 
     const buttonClicked = (startTime: number, endTime: number) => {
         setSelectedInterval(`You selected interval from : ${startTime}, to: ${endTime}`)
+        let startH = Math.floor(startTime)
+        let startM = Math.ceil((startTime - startH) * 60)
+        // TODO: Check if treatment can fit  
+        if (orderStore.treatment !== null) {
+            const temp = { treatment: orderStore.treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
+            console.log("new appointement", temp);
+            const newTreatments = [...todayOccupied, temp]
+            console.log("newTreatments", newTreatments);
+            newTreatments.sort((a, b) => {
+                if (hoursInterval(a) > hoursInterval(b)) {
+                    return 1;
+                }
+                if (hoursInterval(b) > hoursInterval(a)) {
+                    return -1;
+                }
+                return 0;
+            })
+            console.log("newTreatments", newTreatments);
+            // TODO: ovde stadoh
+            setTodayOccupied(newTreatments)
+            console.log(todayOccupied);
+        }
+
+
     }
 
     const createAddButton = (top: number, bottom: number, startTime: number, endTime: number) => {
         top = Math.floor(top)
         const height = Math.floor(bottom - top)
 
-        if (height === 0) return null
+        // Don't show intervals shorter than 15min ~ 17px
+        if (height < 17) return null
 
         return <div onClick={() => buttonClicked(startTime, endTime)} style={{ top, height }} className={styles.timeline__add}>
             <span>+ Choose treatment</span>
@@ -40,7 +65,7 @@ export const Timeline: React.FC<Props> = ({ }) => {
         const pixelsPerHour = (800 / (businessHours.closed - businessHours.open))
 
         let startsFromBeginning = false;
-        let firstAppointmentTime = todayOccupied[0].start.hour + (todayOccupied[0].start.minutes / 60);
+        let firstAppointmentTime = hoursInterval(todayOccupied[0])
         let freeIntervalStart = firstAppointmentTime
         let freeIntervalEnd: number = businessHours.closed;
         let isLastInterval: boolean = false;
@@ -62,8 +87,8 @@ export const Timeline: React.FC<Props> = ({ }) => {
                 freeIntervalStart = formerIntervalEnd
                 freeIntervalEnd = appointementStartTime
             } else {
-                freeIntervalStart = appointementStartTime
-                freeIntervalEnd = appointementEndTime
+                freeIntervalStart = formerIntervalEnd
+                freeIntervalEnd = appointementStartTime
             }
 
             const top = (freeIntervalStart - businessHours.open) * pixelsPerHour
@@ -97,10 +122,11 @@ export const Timeline: React.FC<Props> = ({ }) => {
                 <div className={styles.timeline__background} >{fillSlogan()}</div>
             </div>
             <div className={styles.timeline__add_wrap}>
+                {console.log("rerender")}
                 {createAddButtons()}
             </div>
         </div>
     </>);
 
 
-}
+}))

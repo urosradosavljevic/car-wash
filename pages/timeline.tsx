@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { inject, observer } from 'mobx-react';
-import TimeRange from 'react-timeline-range-slider-with-disabled'
-import { set, add } from 'date-fns'
+import { set } from 'date-fns'
+import styles from '../styles/TimelinePage.module.scss'
 
 import OrderStore from '../stores/OrderStore';
 import { Timeline } from '../components/Timeline';
@@ -43,12 +43,9 @@ const TimelinePage: React.FC<Props> = inject("orderStore")(observer(({ orderStor
 
     const errorHandler = ({ error }) => console.log({ error })
 
+
     return (
-        <div className="timeline">
-            <span>
-                datum: {orderStore.date?.getDate()}
-                mesec: {orderStore.date?.getMonth()}{"//+ 1"}
-            </span>
+        <div className={styles.timeline}>
             <Timeline />
             {/* <TimeRange
                 // error={error}
@@ -63,8 +60,5 @@ const TimelinePage: React.FC<Props> = inject("orderStore")(observer(({ orderStor
     );
 }))
 
-export const getInitialProps = () => {
-
-}
 
 export default TimelinePage;

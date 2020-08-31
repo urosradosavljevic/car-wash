@@ -1,5 +1,5 @@
 export default {
-  CAR: {
+  car: {
     inside: {
       duration: 30,
       price: 10,
@@ -13,7 +13,7 @@ export default {
       price: 15,
     },
   },
-  VAN: {
+  van: {
     inside: {
       duration: 50,
       price: 15,
@@ -27,7 +27,7 @@ export default {
       price: 25,
     },
   },
-  TRUCK: {
+  truck: {
     inside: {
       duration: 50,
       price: 15,

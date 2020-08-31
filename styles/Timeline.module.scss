@@ -83,7 +83,7 @@ $left-gap: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 6px black;
+  // box-shadow: 0 2px 6px black;
 }
 
 .timeline__add {
@@ -94,7 +94,8 @@ $left-gap: 60px;
 .timeline__add:hover {
   cursor: pointer;
 }
+
 .timeline__add:active {
-  transform: scale(0.997);
-  box-shadow: 0 2px 5px black;
+  transform: scale(0.995);
+  // box-shadow: 0 2px 5px black;
 }
