@@ -5,31 +5,31 @@ export default {
       price: 10,
     },
     outside: {
-      duration: 20,
+      duration: 15,
       price: 5,
     },
     full: {
-      duration: 50,
+      duration: 45,
       price: 15,
     },
   },
   van: {
     inside: {
-      duration: 50,
+      duration: 30,
       price: 15,
     },
     outside: {
-      duration: 40,
+      duration: 30,
       price: 10,
     },
     full: {
-      duration: 90,
+      duration: 60,
       price: 25,
     },
   },
   truck: {
     inside: {
-      duration: 50,
+      duration: 30,
       price: 15,
     },
     outside: {
@@ -37,7 +37,7 @@ export default {
       price: 20,
     },
     full: {
-      duration: 110,
+      duration: 90,
       price: 35,
     },
   },

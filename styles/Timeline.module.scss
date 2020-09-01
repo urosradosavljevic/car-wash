@@ -1,9 +1,16 @@
-$left-gap: 60px;
+$timeline-left-gap: 60px;
+//When changing timeline height, also change $timelineHeight in constants/style.ts
+$timeline-height: 800px;
+
+.appointements_wrap {
+  display: flex;
+  flex-direction: row;
+}
 
 .timeline_container {
   position: relative;
   width: 400px;
-  height: 800px;
+  height: $timeline-height;
   margin: 0;
 }
 .timeline__background_wrap {
@@ -11,7 +18,7 @@ $left-gap: 60px;
   position: absolute;
   top: 0;
   right: 0;
-  width: calc(100% - #{$left-gap});
+  width: calc(100% - #{$timeline-left-gap});
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -76,10 +83,10 @@ $left-gap: 60px;
 
 .timeline__add {
   position: absolute;
-  margin-left: $left-gap;
+  margin-left: $timeline-left-gap;
   display: block;
   background: greenyellow;
-  width: calc(100% - #{$left-gap});
+  width: calc(100% - #{$timeline-left-gap});
   display: flex;
   justify-content: center;
   align-items: center;

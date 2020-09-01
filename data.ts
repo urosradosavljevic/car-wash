@@ -21,7 +21,7 @@ export const day = [
     treatment: vehicles.truck.outside,
     start: {
       hour: 12,
-      minutes: 20,
+      minutes: 30,
     },
   },
   {
@@ -35,7 +35,7 @@ export const day = [
     treatment: vehicles.car.full,
     start: {
       hour: 15,
-      minutes: 50,
+      minutes: 30,
     },
   },
   {

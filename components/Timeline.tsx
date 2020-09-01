@@ -4,15 +4,23 @@ import { businessHours, day } from "../data"
 import { inject } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 import OrderStore from '../stores/OrderStore'
+import { timelineHeight } from '../constants/style'
+import { Time } from '../constants/types/Time'
 
 interface Props {
     orderStore?: OrderStore;
 }
 
+interface Interval {
+    index: number;
+    startTime: number;
+    endTime: number;
+}
+
 export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
 
-    const [selectedInterval, setSelectedInterval] = useState("none")
+    const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
     const [todayOccupied, setTodayOccupied] = useState(day)
 
     const fillSlogan = () => [...Array(30)].map(_ => (
@@ -21,55 +29,80 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
     const hoursInterval = (treatment: any) => (treatment.start.hour + (treatment.start.minutes / 60))
 
-    const buttonClicked = (startTime: number, endTime: number) => {
-        setSelectedInterval(`You selected interval from : ${startTime}, to: ${endTime}`)
-        let startH = Math.floor(startTime)
-        let startM = Math.ceil((startTime - startH) * 60)
+    const numberToTime = (number: number) => ({ hour: Math.floor(number), minutes: (number - Math.floor(number)) * 60 })
 
-        // TODO: Check if treatment can fit  
-        if (appointementStore.treatment !== null) {
-            const temp = { treatment: appointementStore.treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
-            console.log("new appointement", temp);
-            const newTreatments = [...todayOccupied, temp]
-            console.log("newTreatments", newTreatments);
-            newTreatments.sort((a, b) => {
-                if (hoursInterval(a) > hoursInterval(b)) {
-                    return 1;
-                }
-                if (hoursInterval(b) > hoursInterval(a)) {
-                    return -1;
-                }
-                return 0;
-            })
-            console.log("newTreatments", newTreatments);
-            // TODO: ovde stadoh
-            setTodayOccupied(newTreatments)
-            console.log(todayOccupied);
-        }
+    const selectTime = (startTime: Time) => (appointementStore.setStartTime(startTime))
 
-
+    const buttonClicked = (startTime: number, endTime: number, index: number) => {
+        setSelectedInterval({ index, startTime, endTime });
     }
 
-    const createAddButton = (top: number, bottom: number, startTime: number, endTime: number) => {
+    // Insert appointement 
+    // const buttonClicked = (startTime: number, endTime: number) => {
+    //     setSelectedInterval(`You selected interval from : ${startTime}, to: ${endTime}`)
+    //     let startH = Math.floor(startTime)
+    //     let startM = Math.ceil((startTime - startH) * 60)
+
+    //     // TODO: Check if treatment can fit  
+    //     if (appointementStore.treatment !== null) {
+    //         const temp = { treatment: appointementStore.treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
+    //         console.log("new appointement", temp);
+    //         const newTreatments = [...todayOccupied, temp]
+    //         console.log("newTreatments", newTreatments);
+    //         newTreatments.sort((a, b) => {
+    //             if (hoursInterval(a) > hoursInterval(b)) {
+    //                 return 1;
+    //             }
+    //             if (hoursInterval(b) > hoursInterval(a)) {
+    //                 return -1;
+    //             }
+    //             return 0;
+    //         })
+    //         console.log("newTreatments", newTreatments);
+    //         // TODO: ovde stadoh
+    //         setTodayOccupied(newTreatments)
+    //         console.log(todayOccupied);
+    //     }
+    // }
+
+    const createAddButton = (top: number, bottom: number, startTime: number, endTime: number, index: number) => {
         top = Math.floor(top)
         const height = Math.floor(bottom - top)
 
         // Don't show intervals shorter than 15min ~ 17px
         if (height < 17) return null
 
-        return <div onClick={() => buttonClicked(startTime, endTime)} style={{ top, height }} className={styles.timeline__add}>
-            <span>+ Choose treatment</span>
+        return <div role="button" data-index={index} onClick={() => buttonClicked(startTime, endTime, index)} style={{ top, height }} className={styles.timeline__add}>
+            <span>Select Interval {index === selectedInterval?.index && "*"}</span>
         </div>
     }
 
+    const getPosibleTimes = (interval: Interval) => {
+        const lenght = interval.endTime - interval.startTime;
+        let duration = (appointementStore.treatment!.duration / 60);
+        let count = Math.floor(lenght / duration)
+        let times = []
+        let i = 0;
+        while (count !== i) {
+            const startTime = numberToTime(interval.startTime + i * duration)
+            times.push(
+                <div role="button" onClick={() => selectTime(startTime)}>
+                    {startTime.hour}:{startTime.minutes}
+                </div>
+            );
+            i++;
+        }
+        return times;
+    }
+
     const createAddButtons = () => {
-        const pixelsPerHour = (800 / (businessHours.closed - businessHours.open))
+        let buttonLastIndex = 0
+        const pixelsPerHour = (timelineHeight / (businessHours.closed - businessHours.open))
 
         let startsFromBeginning = false;
         let firstAppointmentTime = hoursInterval(todayOccupied[0])
         let freeIntervalStart = firstAppointmentTime
         let freeIntervalEnd: number = businessHours.closed;
-        // let isLastInterval: boolean = false;
 
         if (firstAppointmentTime !== businessHours.open) {
             startsFromBeginning = true;
@@ -96,20 +129,22 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
             const bottom = (freeIntervalEnd - businessHours.open) * pixelsPerHour
 
             formerIntervalEnd = appointementEndTime
-
-            return createAddButton(top, bottom, freeIntervalStart, freeIntervalEnd)
+            const btn = createAddButton(top, bottom, freeIntervalStart, freeIntervalEnd, buttonLastIndex)
+            buttonLastIndex++;
+            return btn
         })
 
         const top = (formerIntervalEnd - businessHours.open) * pixelsPerHour
         const bottom = (businessHours.closed - businessHours.open) * pixelsPerHour
 
-        addButtons.push(createAddButton(top, bottom, formerIntervalEnd - businessHours.open, businessHours.closed - businessHours.open))
+        const btn = createAddButton(top, bottom, formerIntervalEnd - businessHours.open, businessHours.closed - businessHours.open, buttonLastIndex)
+        buttonLastIndex++;
+        addButtons.push(btn)
 
         return addButtons
     };
 
-    return (<>
-        <div>{selectedInterval}</div>
+    return (<div className={styles.appointements_wrap}>
         <div className={styles.timeline_container}>
             <div className={styles.timeline__time} >
                 {[...Array(businessHours.closed - businessHours.open)].map((_, index) =>
@@ -123,11 +158,16 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
                 <div className={styles.timeline__background} >{fillSlogan()}</div>
             </div>
             <div className={styles.timeline__add_wrap}>
-                {console.log("rerender")}
                 {createAddButtons()}
             </div>
         </div>
-    </>);
+        <div>
+            <div>{selectedInterval?.startTime}  -  {selectedInterval?.endTime}</div>
+            <h3>Available termins</h3>
+            {selectedInterval !== null && getPosibleTimes(selectedInterval!)}
+            {/* {selectedInterval !== null && JSON.stringify(getPosibleTimes(selectedInterval!), null, 2)} */}
+        </div>
+    </div>);
 
 
 }))

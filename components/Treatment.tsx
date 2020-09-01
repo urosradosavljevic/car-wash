@@ -20,7 +20,7 @@ export const Treatment: React.FC<Props> = inject("orderStore")(observer(({ order
 
     const changeTreatment = () => {
         const t = vehicles[vehicle][treatment]
-        appointementStore.treatment = t
+        appointementStore.setTreatment(t)
     }
 
     useEffect(() => {
