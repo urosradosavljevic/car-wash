@@ -9,13 +9,14 @@ interface Props {
     orderStore?: OrderStore;
 }
 export const DateSelect: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
-    const appointementStore = orderStore!
-    const today = new Date()
+    const appointementStore = orderStore!;
+    const today = new Date();
+
     return (
         <div className={styles.datepickerWrap}>
             <DatePicker
                 disabledKeyboardNavigation
-                selected={appointementStore.date}
+                selected={new Date(appointementStore.date)}
                 onChange={appointementStore.setDate}
                 monthsShown={2}
                 minDate={new Date(today.getFullYear(), today.getMonth(), 1)}

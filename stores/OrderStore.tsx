@@ -1,5 +1,4 @@
 import { observable, action } from "mobx"
-// import { useStaticRendering } from "mobx-react";
 
 import { OrderStoreData } from "../constants/types/OrderStoreData";
 import { ClientData } from "../constants/types/ClientData";
@@ -7,23 +6,25 @@ import { Vehicle } from "../constants/types/Vehicle";
 import { Time } from "../constants/types/Time";
 import { Treatment } from "../constants/types/Treatment";
 
+
 const initial = {
-    date: null,
-    vehicle: null,
-    treatment: null,
+    date: new Date(),
+    vehicle: Vehicle.car,
+    treatment: Treatment.outside,
     startTime: null,
     client: null,
 }
+console.log("initial", initial)
 
 class OrderStore {
     @observable
-    date!: Date | null;
+    date!: Date;
 
     @observable
-    vehicle!: Vehicle | null;
+    vehicle!: Vehicle;
 
     @observable
-    treatment!: Treatment | null;
+    treatment!: Treatment;
 
     @observable
     startTime!: Time | null;
@@ -56,7 +57,7 @@ class OrderStore {
         this.client = client
     }
 
-    hydrate(initialData: OrderStoreData = initial) {
+    hydrate(initialData: OrderStoreData) {
         this.date = initialData.date;
         this.vehicle = initialData.vehicle;
         this.treatment = initialData.treatment;
@@ -65,5 +66,9 @@ class OrderStore {
     }
 }
 
+export const getInitialStoreState = async () => {
+
+    return initial;
+}
 
 export default OrderStore;

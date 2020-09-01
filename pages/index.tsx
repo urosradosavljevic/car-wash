@@ -4,10 +4,12 @@ import { inject, observer } from 'mobx-react'
 
 import OrderStore from '../stores/OrderStore'
 import styles from '../styles/Home.module.scss'
-import { Treatment } from '../components/Treatment';
+import { TreatmentSelect } from '../components/TreatmentSelect';
 import { Timeline } from '../components/Timeline';
 import { DateSelect } from '../components/DateSelect';
 import { Checkout } from '../components/Checkout';
+import { Vehicle } from '../constants/types/Vehicle';
+import { Treatment } from '../constants/types/Treatment';
 
 interface IndexProps {
   orderStore?: OrderStore;
@@ -22,6 +24,10 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
   const submit = () => {
   }
 
+  console.log({
+    vehicle: Vehicle.car,
+    treatment: Treatment.outside,
+  })
   useEffect(() => {
     console.log(appointementStore)
   }, [appointementStore.date])
@@ -32,12 +38,11 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
         // return <div>o</div>
         return <DateSelect />;
       case 1:
-        return <Treatment />
+        return <TreatmentSelect />
       case 2:
         return <Timeline />;
       case 3:
         return <Checkout />;
-
       default:
         return <Timeline />;
     }
@@ -55,7 +60,7 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
         </h2>
         {renderStep()}
         <br />
-        selected: {appointementStore.date?.toString()}
+        selected: {appointementStore.date.toString()}
         <br />
         {step > 0 && <button onClick={() => setStep(step - 1)} >return</button>}
         {step < 3 && <button onClick={() => setStep(step + 1)} >continue</button>}
@@ -63,8 +68,8 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
       </main >
       <footer className={styles.footer}>
         <img src="/car.svg" alt="Car Logo" className={styles.logo} />
-        <button onClick={() => appointementStore.changeDate(new Date())}>change date</button>
-        <span>{appointementStore?.date?.toString()}</span>
+        <button onClick={() => appointementStore.setDate(new Date())}>change date</button>
+        <span>{appointementStore.date.toString()}</span>
       </footer>
     </div >
   )

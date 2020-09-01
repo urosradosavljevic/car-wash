@@ -1,42 +1,45 @@
+import { Vehicle } from "./types/Vehicle";
+import { Treatment } from "./types/Treatment";
+
 export default {
-  car: {
-    inside: {
+  [Vehicle.car]: {
+    [Treatment.inside]: {
       duration: 30,
       price: 10,
     },
-    outside: {
+    [Treatment.outside]: {
       duration: 15,
       price: 5,
     },
-    full: {
+    [Treatment.full]: {
       duration: 45,
       price: 15,
     },
   },
-  van: {
-    inside: {
+  [Vehicle.van]: {
+    [Treatment.inside]: {
       duration: 30,
       price: 15,
     },
-    outside: {
+    [Treatment.outside]: {
       duration: 30,
       price: 10,
     },
-    full: {
+    [Treatment.full]: {
       duration: 60,
       price: 25,
     },
   },
-  truck: {
-    inside: {
+  [Vehicle.truck]: {
+    [Treatment.inside]: {
       duration: 30,
       price: 15,
     },
-    outside: {
+    [Treatment.outside]: {
       duration: 60,
       price: 20,
     },
-    full: {
+    [Treatment.full]: {
       duration: 90,
       price: 35,
     },

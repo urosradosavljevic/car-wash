@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite'
 import OrderStore from '../stores/OrderStore'
 import { timelineHeight } from '../constants/style'
 import { Time } from '../constants/types/Time'
+import vehicles from '../constants/vehicles'
 
 interface Props {
     orderStore?: OrderStore;
@@ -20,6 +21,7 @@ interface Interval {
 export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
     const pixelsPerHour = (timelineHeight / (businessHours.closed - businessHours.open))
+    const duration = (vehicles[appointementStore.vehicle][appointementStore.treatment].duration / 60);
 
     const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
     const [todayOccupied, setTodayOccupied] = useState(day)
@@ -80,7 +82,6 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
     const getPosibleTimes = (interval: Interval) => {
         const lenght = interval.endTime - interval.startTime;
-        let duration = (appointementStore.treatment!.duration / 60);
         let count = Math.floor(lenght / duration)
         let times = []
         let i = 0;
@@ -115,7 +116,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
             // isLastInterval = appointement === todayOccupied[todayOccupied.length - 1]
             const appointementStartTime = appointement.start.hour + (appointement.start.minutes / 60)
-            const appointementEndTime = appointement.start.hour + (appointement.start.minutes / 60) + (appointement.treatment.duration / 60)
+            const appointementEndTime = appointement.start.hour + (appointement.start.minutes / 60) + (duration / 60)
 
             if (startsFromBeginning) {
                 freeIntervalStart = formerIntervalEnd
