@@ -1,31 +1,29 @@
-
 import App from "next/app";
 import React from "react";
 import { Provider } from "mobx-react";
 import OrderStore from "../stores/OrderStore";
 import initializeStore from "../stores/stores";
-import "../styles/custom_datepicker.css"
-import "../styles/globals.css"
+import "../styles/custom_datepicker.css";
+import "../styles/globals.css";
 
 class CustomApp extends App {
   state = {
-    orderStore: new OrderStore()
+    orderStore: new OrderStore(),
   };
 
   static async getInitialProps(appContext) {
     const appProps = await App.getInitialProps(appContext);
-    const initialMobxState = await initializeStore();
+    const initialMobxState = initializeStore();
 
     return {
       ...appProps,
-      initialMobxState
+      initialMobxState,
     };
   }
 
   // Hydrate serialized state to store
   static getDerivedStateFromProps(props, state) {
-    state.orderStore = initializeStore(props.initialMobxState);
-
+    state.orderStore.hydrate(props.initialMobxState);
     return state;
   }
 

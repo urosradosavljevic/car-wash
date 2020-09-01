@@ -13,14 +13,14 @@ interface Props {
 }
 
 export const Treatment: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
+    const appointementStore = orderStore!
 
     const [vehicle, setVehicle] = useState<"car" | "van" | "truck">("car")
     const [treatment, setTreatment] = useState<"inside" | "outside" | "full">("inside")
 
-
     const changeTreatment = () => {
         const t = vehicles[vehicle][treatment]
-        orderStore.treatment = t
+        appointementStore.treatment = t
     }
 
     useEffect(() => {
@@ -29,19 +29,18 @@ export const Treatment: React.FC<Props> = inject("orderStore")(observer(({ order
 
     return (
         <div>
-
             <div>
                 <div>
                     <BiCalendarAlt size="1rem" />
-                    <span>{" "}{orderStore.date?.getDate()}.{orderStore.date?.getMonth() && orderStore.date?.getMonth() + 1}.</span>
+                    <span>{" "}{appointementStore.date?.getDate()}.{appointementStore.date?.getMonth() && appointementStore.date?.getMonth() + 1}.</span>
                 </div>
                 <div>
                     <FaMoneyBillWave size="1rem" />
-                    <span>{" "}{orderStore.treatment?.price} €</span>
+                    <span>{" "}{appointementStore.treatment?.price} €</span>
                 </div>
                 <div>
                     <FaRegClock size="1rem" />
-                    <span>{" "}{orderStore.treatment?.duration} min</span>
+                    <span>{" "}{appointementStore.treatment?.duration} min</span>
                 </div>
             </div>
             <div className={styles.treatment__wrapp}>

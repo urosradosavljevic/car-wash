@@ -8,15 +8,15 @@ useStaticRendering(isServer);
 
 let store: { orderStore: OrderStore } | null = null;
 
-export default function initializeStore(initialData = { date: new Date() }) {
+export default function initializeStore() {
   if (isServer) {
     return {
-      orderStore: new OrderStore(initialData),
+      orderStore: new OrderStore(),
     };
   }
   if (store === null) {
     store = {
-      orderStore: new OrderStore(initialData),
+      orderStore: new OrderStore(),
     };
   }
 

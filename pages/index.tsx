@@ -30,7 +30,7 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
     switch (step) {
       case 0:
         // return <div>o</div>
-        return <DateSelect date={appointementStore.date} setDate={(d: Date) => { appointementStore.date = d; console.log(d) }} />;
+        return <DateSelect />;
       case 1:
         return <Treatment />
       case 2:

@@ -1,25 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import DatePicker from "react-datepicker"
 import styles from '../styles/DateSelect.module.scss'
 import OrderStore from '../stores/OrderStore'
+import { inject, observer } from 'mobx-react';
 
 interface Props {
-    date: OrderStore["date"];
-    setDate: (arg0: Date) => void;
+    orderStore?: OrderStore;
 }
+export const DateSelect: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
+    const appointementStore = orderStore!
 
-export const DateSelect: React.FC<Props> = ({ date, setDate }) => {
     return (
         <div className={styles.datepickerWrap}>
             <DatePicker
                 disabledKeyboardNavigation
-                selected={date}
-                onChange={setDate}
+                selected={appointementStore.date}
+                onChange={appointementStore.setDate}
                 monthsShown={2}
-                // calendarClassName={styles.calendar}
                 inline
-            // renderCustomHeader={}
             />
         </div>
     );
-}
+}))

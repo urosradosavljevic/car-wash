@@ -10,6 +10,7 @@ interface Props {
 }
 
 export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
+    const appointementStore = orderStore!
 
     const [selectedInterval, setSelectedInterval] = useState("none")
     const [todayOccupied, setTodayOccupied] = useState(day)
@@ -17,7 +18,6 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
     const fillSlogan = () => [...Array(30)].map(_ => (
         <p>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
     ))
-    console.log(todayOccupied);
 
     const hoursInterval = (treatment: any) => (treatment.start.hour + (treatment.start.minutes / 60))
 
@@ -25,9 +25,10 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         setSelectedInterval(`You selected interval from : ${startTime}, to: ${endTime}`)
         let startH = Math.floor(startTime)
         let startM = Math.ceil((startTime - startH) * 60)
+
         // TODO: Check if treatment can fit  
-        if (orderStore.treatment !== null) {
-            const temp = { treatment: orderStore.treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
+        if (appointementStore.treatment !== null) {
+            const temp = { treatment: appointementStore.treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
             console.log("new appointement", temp);
             const newTreatments = [...todayOccupied, temp]
             console.log("newTreatments", newTreatments);
@@ -68,7 +69,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         let firstAppointmentTime = hoursInterval(todayOccupied[0])
         let freeIntervalStart = firstAppointmentTime
         let freeIntervalEnd: number = businessHours.closed;
-        let isLastInterval: boolean = false;
+        // let isLastInterval: boolean = false;
 
         if (firstAppointmentTime !== businessHours.open) {
             startsFromBeginning = true;
@@ -79,7 +80,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
         let addButtons = todayOccupied.map((appointement: any) => {
 
-            isLastInterval = appointement === todayOccupied[todayOccupied.length - 1]
+            // isLastInterval = appointement === todayOccupied[todayOccupied.length - 1]
             const appointementStartTime = appointement.start.hour + (appointement.start.minutes / 60)
             const appointementEndTime = appointement.start.hour + (appointement.start.minutes / 60) + (appointement.treatment.duration / 60)
 
