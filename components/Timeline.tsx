@@ -19,6 +19,7 @@ interface Interval {
 
 export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
+    const pixelsPerHour = (timelineHeight / (businessHours.closed - businessHours.open))
 
     const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
     const [todayOccupied, setTodayOccupied] = useState(day)
@@ -70,7 +71,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         const height = Math.floor(bottom - top)
 
         // Don't show intervals shorter than 15min ~ 17px
-        if (height < 17) return null
+        if (height < pixelsPerHour / 4) return null
 
         return <div role="button" data-index={index} onClick={() => buttonClicked(startTime, endTime, index)} style={{ top, height }} className={styles.timeline__add}>
             <span>Select Interval {index === selectedInterval?.index && "*"}</span>
@@ -97,7 +98,6 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
     const createAddButtons = () => {
         let buttonLastIndex = 0
-        const pixelsPerHour = (timelineHeight / (businessHours.closed - businessHours.open))
 
         let startsFromBeginning = false;
         let firstAppointmentTime = hoursInterval(todayOccupied[0])
@@ -165,7 +165,6 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
             <div>{selectedInterval?.startTime}  -  {selectedInterval?.endTime}</div>
             <h3>Available termins</h3>
             {selectedInterval !== null && getPosibleTimes(selectedInterval!)}
-            {/* {selectedInterval !== null && JSON.stringify(getPosibleTimes(selectedInterval!), null, 2)} */}
         </div>
     </div>);
 

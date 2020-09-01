@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head'
 import { inject, observer } from 'mobx-react'
-// import { } from "mobx-react-lite";
 
 import OrderStore from '../stores/OrderStore'
 import styles from '../styles/Home.module.scss'
 import { Treatment } from '../components/Treatment';
 import { Timeline } from '../components/Timeline';
 import { DateSelect } from '../components/DateSelect';
+import { Checkout } from '../components/Checkout';
 
 interface IndexProps {
   orderStore?: OrderStore;
@@ -36,7 +36,7 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
       case 2:
         return <Timeline />;
       case 3:
-        return <input />;
+        return <Checkout />;
 
       default:
         return <Timeline />;
