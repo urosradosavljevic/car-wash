@@ -22,47 +22,48 @@ export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({
     const isTreatmentSelected = (treatment: Treatment) => ({ color: appointementStore.treatment === treatment ? "greenyellow" : "black" })
 
     return (
-        <div>
-            <div>
+        <div className={styles.treatment__wrapp}>
+            <div className={styles.treatment__selected}>
                 <div>
-                    <BiCalendarAlt size="1rem" />
-                    <span>{" "}{appointementStore.date?.getDate()}.{appointementStore.date?.getMonth() && appointementStore.date?.getMonth() + 1}.</span>
+                    <BiCalendarAlt size="1.8rem" />
+                    <span>{" "}
+                        {appointementStore.date?.getDate()}.{appointementStore.date?.getMonth() && appointementStore.date?.getMonth() + 1}.
+                    </span>
                 </div>
                 <div>
-                    <FaMoneyBillWave size="1rem" />
-                    <span>{" "}{vehicles[appointementStore.vehicle][appointementStore.treatment].price} €</span>
-                    {/* <span>{" "}{vehicles[appointementStore.vehicle][appointementStore.treatment].price} €</span> */}
-                </div>
-                <div>
-                    <FaRegClock size="1rem" />
+                    <FaRegClock size="1.8rem" />
                     <span>{" "}{vehicles[appointementStore.vehicle][appointementStore.treatment].duration} min</span>
                 </div>
+                <div>
+                    <FaMoneyBillWave size="1.8rem" />
+                    <span>{" "}{vehicles[appointementStore.vehicle][appointementStore.treatment].price} €</span>
+                </div>
             </div>
-            <div className={styles.treatment__wrapp}>
-                <div className={styles.vehicle__options}>
-                    <div className={styles.vehicle__option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.car)}>
+            <div className={styles.treatment__options_wrapp}>
+                <div className={styles.options}>
+                    <div className={styles.option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.car)}>
                         <FaCarAlt size="3rem" style={isVehicleSelected(Vehicle.car)} />
                         <span>Car</span>
                     </div>
-                    <div className={styles.vehicle__option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.van)}>
+                    <div className={styles.option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.van)}>
                         <FaShuttleVan size="3rem" style={isVehicleSelected(Vehicle.van)} />
                         <span>Van</span>
                     </div>
-                    <div className={styles.vehicle__option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.truck)}>
+                    <div className={styles.option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.truck)}>
                         <FaTruck size="3rem" style={isVehicleSelected(Vehicle.truck)} />
                         <span>Truck</span>
                     </div>
                 </div>
-                <div className={styles.treatment__options}>
-                    <div className={styles.treatment__option_wrap} onClick={() => appointementStore.setTreatment(Treatment.inside)}>
+                <div className={styles.options}>
+                    <div className={styles.option_wrap} onClick={() => appointementStore.setTreatment(Treatment.inside)}>
                         <GiVacuumCleaner size="3rem" style={isTreatmentSelected(Treatment.inside)} />
                         <span>Inside</span>
                     </div>
-                    <div className={styles.treatment__option_wrap} onClick={() => appointementStore.setTreatment(Treatment.outside)}>
+                    <div className={styles.option_wrap} onClick={() => appointementStore.setTreatment(Treatment.outside)}>
                         <FaShower size="3rem" style={isTreatmentSelected(Treatment.outside)} />
                         <span>Outside</span>
                     </div>
-                    <div className={styles.treatment__option_wrap} onClick={() => appointementStore.setTreatment(Treatment.full)}>
+                    <div className={styles.option_wrap} onClick={() => appointementStore.setTreatment(Treatment.full)}>
                         <WiStars size="3rem" style={isTreatmentSelected(Treatment.full)} />
                         <span>Full</span>
                     </div>

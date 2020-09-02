@@ -1,8 +1,15 @@
-.login_container {
+.login_container,
+.login_container > div {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
 }
+.login_container input,
+.login_container button {
+  height: 1.8rem;
+  width: 100%;
+  margin-top: 0.2rem;
+}
+
 .login_container > * {
   margin-bottom: 1.5rem;
 }
