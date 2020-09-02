@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import styles from '../styles/Timeline.module.scss'
-import { businessHours, day } from "../data"
 import { inject } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
+
+import styles from '../styles/Timeline.module.scss'
+import { businessHours, day } from "../data"
 import OrderStore from '../stores/OrderStore'
 import { timelineHeight } from '../constants/style'
 import { Time } from '../constants/types/Time'
@@ -20,21 +21,21 @@ interface Interval {
 
 export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
-    const pixelsPerHour = (timelineHeight / (businessHours.closed - businessHours.open))
+    const pixelsPerHour = Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
     const duration = (vehicles[appointementStore.vehicle][appointementStore.treatment].duration / 60);
-
     const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
+
     const [todayOccupied, setTodayOccupied] = useState(day)
 
-    const fillSlogan = () => [...Array(30)].map(_ => (
-        <p>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
+    const fillSlogan = () => [...Array(30)].map((_, index) => (
+        <p key={index}>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
     ))
 
     const hoursInterval = (treatment: any) => (treatment.start.hour + (treatment.start.minutes / 60))
 
     const numberToTime = (number: number) => ({ hour: Math.floor(number), minutes: (number - Math.floor(number)) * 60 })
 
-    const selectTime = (startTime: Time) => (appointementStore.setStartTime(startTime))
+    const selectStartTime = (startTime: Time) => (appointementStore.setStartTime(startTime))
 
     const buttonClicked = (startTime: number, endTime: number, index: number) => {
         setSelectedInterval({ index, startTime, endTime });
@@ -75,9 +76,14 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         // Don't show intervals shorter than 15min ~ 17px
         if (height < pixelsPerHour / 4) return null
 
-        return <div role="button" data-index={index} onClick={() => buttonClicked(startTime, endTime, index)} style={{ top, height }} className={styles.timeline__add}>
-            <span>Select Interval {index === selectedInterval?.index && "*"}</span>
-        </div>
+        return (
+            <div
+                role="button" data-index={index}
+                onClick={() => buttonClicked(startTime, endTime, index)}
+                style={{ top, height }} className={styles.timeline__add}
+            >
+                <span>Select Interval {index === selectedInterval?.index && "*"}</span>
+            </div>)
     }
 
     const getPosibleTimes = (interval: Interval) => {
@@ -88,7 +94,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         while (count !== i) {
             const startTime = numberToTime(interval.startTime + i * duration)
             times.push(
-                <div role="button" onClick={() => selectTime(startTime)}>
+                <div role="button" onClick={() => selectStartTime(startTime)}>
                     {startTime.hour}:{startTime.minutes}
                 </div>
             );
@@ -112,11 +118,10 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
         let formerIntervalEnd: number = startsFromBeginning ? businessHours.open : firstAppointmentTime + (todayOccupied[0].treatment.duration / 60)
 
-        let addButtons = todayOccupied.map((appointement: any) => {
 
-            // isLastInterval = appointement === todayOccupied[todayOccupied.length - 1]
-            const appointementStartTime = appointement.start.hour + (appointement.start.minutes / 60)
-            const appointementEndTime = appointement.start.hour + (appointement.start.minutes / 60) + (duration / 60)
+        let addButtons = todayOccupied.map((appointement: any) => {
+            const appointementStartTime = (appointement.start.hour + appointement.start.minutes / 60)
+            const appointementEndTime = (appointement.start.hour + appointement.start.minutes / 60) + duration
 
             if (startsFromBeginning) {
                 freeIntervalStart = formerIntervalEnd
@@ -130,7 +135,9 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
             const bottom = (freeIntervalEnd - businessHours.open) * pixelsPerHour
 
             formerIntervalEnd = appointementEndTime
+
             const btn = createAddButton(top, bottom, freeIntervalStart, freeIntervalEnd, buttonLastIndex)
+
             buttonLastIndex++;
             return btn
         })
@@ -141,11 +148,11 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         const btn = createAddButton(top, bottom, formerIntervalEnd - businessHours.open, businessHours.closed - businessHours.open, buttonLastIndex)
         buttonLastIndex++;
         addButtons.push(btn)
-
         return addButtons
     };
 
     return (<div className={styles.appointements_wrap}>
+        <span>{appointementStore.startTime?.hour}-{appointementStore.startTime?.minutes}</span>
         <div className={styles.timeline_container}>
             <div className={styles.timeline__time} >
                 {[...Array(businessHours.closed - businessHours.open)].map((_, index) =>

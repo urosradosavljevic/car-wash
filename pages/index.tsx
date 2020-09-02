@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import Head from 'next/head'
+import { useState } from 'react';
 import { inject, observer } from 'mobx-react'
 
 import OrderStore from '../stores/OrderStore'
@@ -8,8 +7,9 @@ import { TreatmentSelect } from '../components/TreatmentSelect';
 import { Timeline } from '../components/Timeline';
 import { DateSelect } from '../components/DateSelect';
 import { Checkout } from '../components/Checkout';
-import { Vehicle } from '../constants/types/Vehicle';
-import { Treatment } from '../constants/types/Treatment';
+import Layout from '../components/Layout';
+import { ScheduleProgress } from '../components/ScheduleProgress';
+import { Login } from '../components/Login';
 
 interface IndexProps {
   orderStore?: OrderStore;
@@ -21,27 +21,17 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
 
   const [step, setStep] = useState(0)
 
-  const submit = () => {
-  }
-
-  console.log({
-    vehicle: Vehicle.car,
-    treatment: Treatment.outside,
-  })
-  useEffect(() => {
-    console.log(appointementStore)
-  }, [appointementStore.date])
-
   const renderStep = () => {
     switch (step) {
       case 0:
-        // return <div>o</div>
-        return <DateSelect />;
+        return <Login />;
       case 1:
-        return <TreatmentSelect />
+        return <DateSelect />;
       case 2:
-        return <Timeline />;
+        return <TreatmentSelect />
       case 3:
+        return <Timeline />;
+      case 4:
         return <Checkout />;
       default:
         return <Timeline />;
@@ -49,29 +39,22 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
   }
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        <h2 className={styles.title}>
-          Car Wash Service
-        </h2>
-        {renderStep()}
-        <br />
-        selected: {appointementStore.date.toString()}
-        <br />
-        {step > 0 && <button onClick={() => setStep(step - 1)} >return</button>}
-        {step < 3 && <button onClick={() => setStep(step + 1)} >continue</button>}
-        {step == 3 && <button onClick={() => submit()} >submit</button>}
-      </main >
-      <footer className={styles.footer}>
-        <img src="/car.svg" alt="Car Logo" className={styles.logo} />
-        <button onClick={() => appointementStore.setDate(new Date())}>change date</button>
-        <span>{appointementStore.date.toString()}</span>
-      </footer>
-    </div >
+    <Layout title="Schedule appointement">
+
+      <div className={styles.container}>
+        <ScheduleProgress step={step} setStep={setStep} />
+        <main className={styles.main}>
+          {renderStep()}
+          <br />
+          <div className={styles.step__navigation_container}>
+            {step > 0 && <button onClick={() => setStep(step - 1)} >return</button>}
+            {step < 4 && <button onClick={() => setStep(step + 1)} >continue</button>}
+            {step == 4 && <button onClick={() => { }} >submit</button>}
+          </div>
+        </main >
+        <div />
+      </div >
+    </Layout >
   )
 })
 )

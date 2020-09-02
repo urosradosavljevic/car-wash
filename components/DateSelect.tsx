@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import DatePicker from "react-datepicker"
 import { inject, observer } from 'mobx-react';
 
@@ -12,11 +12,16 @@ export const DateSelect: React.FC<Props> = inject("orderStore")(observer(({ orde
     const appointementStore = orderStore!;
     const today = new Date();
 
+    useEffect(() => {
+        appointementStore.setDate(today)
+    }, [])
+
     return (
         <div className={styles.datepickerWrap}>
             <DatePicker
                 disabledKeyboardNavigation
                 selected={new Date(appointementStore.date)}
+                // selected={appointementStore.date}
                 onChange={appointementStore.setDate}
                 monthsShown={2}
                 minDate={new Date(today.getFullYear(), today.getMonth(), 1)}
