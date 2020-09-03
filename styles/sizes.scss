@@ -1,0 +1,14 @@
+$sizes: (
+  timeline-left-gap: 60px,
+  //When changing timeline height, also change $timelineHeight in constants/style.ts
+  timeline-height: 400px,
+);
+
+@function size($key) {
+  @if map-has-key($sizes, $key) {
+    @return map-get($sizes, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $sizes.";
+  @return null;
+}

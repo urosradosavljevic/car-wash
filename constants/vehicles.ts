@@ -9,7 +9,7 @@ export default {
     },
     [Treatment.outside]: {
       duration: 15,
-      price: 5,
+      price: 10,
     },
     [Treatment.full]: {
       duration: 45,

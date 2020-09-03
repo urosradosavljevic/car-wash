@@ -1,0 +1,18 @@
+$colors: (
+  main: #fa6acc,
+  secondary: #f02a52,
+  highlight: #09a6e4,
+  button: #f02a52,
+  buttonHover: #f02a52,
+  buttonActive: #f02a52,
+  buttonSelected: #f02a52,
+);
+
+@function color($key) {
+  @if map-has-key($colors, $key) {
+    @return map-get($colors, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $colors.";
+  @return null;
+}

@@ -22,28 +22,29 @@ $background-color: whitesmoke;
   margin: auto;
   margin-top: 0;
   min-height: 200px;
-}
-.step__navigation_container {
   min-width: 900px;
+}
+.step__nav {
   display: flex;
   flex-direction: row;
-  button {
-    background-color: lightcoral;
-    padding: 0.7rem 1rem;
-    margin: 0.5rem;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: white;
-    border: none;
-    outline: none;
-  }
-  button:hover {
-    background-color: rgb(238, 158, 158);
-  }
-  button:first-of-type {
-    margin-left: auto;
-  }
+  width: 100%;
+}
+.step__nav_btn {
+  background-color: lightcoral;
+  padding: 0.7rem 1rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+  border: none;
+  outline: none;
+}
+.step__nav_btn:hover {
+  background-color: rgb(238, 158, 158);
+}
+.step__nav_btn:first-of-type {
+  margin-left: auto;
 }
 .footer {
   width: 100%;

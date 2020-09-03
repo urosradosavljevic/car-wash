@@ -8,6 +8,7 @@ import OrderStore from '../stores/OrderStore'
 import { timelineHeight } from '../constants/style'
 import { Time } from '../constants/types/Time'
 import vehicles from '../constants/vehicles'
+import clsx from 'clsx'
 
 interface Props {
     orderStore?: OrderStore;
@@ -23,6 +24,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
     const appointementStore = orderStore!
     const pixelsPerHour = Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
     const duration = (vehicles[appointementStore.vehicle][appointementStore.treatment].duration / 60);
+
     const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
 
     const [todayOccupied, setTodayOccupied] = useState(day)
@@ -39,6 +41,13 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
     const buttonClicked = (startTime: number, endTime: number, index: number) => {
         setSelectedInterval({ index, startTime, endTime });
+    }
+
+    const compareTimes = (time1: Time, time2: Time) => {
+        if (time1 && time2) {
+            if (time1.hour === time2.hour && time1.minutes === time2.minutes) return true;
+            return false;
+        }
     }
 
     // Insert appointement 
@@ -68,6 +77,27 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
     //         console.log(todayOccupied);
     //     }
     // }
+    const getPosibleTimes = (interval: Interval) => {
+        const lenght = interval.endTime - interval.startTime;
+        let count = Math.floor(lenght / duration)
+        let times = []
+        let i = 0;
+        while (count !== i) {
+            const startTime = numberToTime(interval.startTime + i * duration)
+            times.push(
+                <div role="button"
+                    onClick={() => selectStartTime(startTime)}
+                    className={clsx(styles.time__btn, compareTimes(appointementStore.startTime!, startTime) && styles.time_selected)}
+                >
+                    <span>
+                        {startTime.hour}:{startTime.minutes === 0 ? "00" : startTime.minutes}
+                    </span>
+                </div>
+            );
+            i++;
+        }
+        return times;
+    }
 
     const createAddButton = (top: number, bottom: number, startTime: number, endTime: number, index: number) => {
         top = Math.floor(top)
@@ -80,27 +110,9 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
             <div
                 role="button" data-index={index}
                 onClick={() => buttonClicked(startTime, endTime, index)}
-                style={{ top, height }} className={styles.timeline__add}
-            >
-                <span>Select Interval {index === selectedInterval?.index && "*"}</span>
-            </div>)
-    }
-
-    const getPosibleTimes = (interval: Interval) => {
-        const lenght = interval.endTime - interval.startTime;
-        let count = Math.floor(lenght / duration)
-        let times = []
-        let i = 0;
-        while (count !== i) {
-            const startTime = numberToTime(interval.startTime + i * duration)
-            times.push(
-                <div role="button" onClick={() => selectStartTime(startTime)}>
-                    {startTime.hour}:{startTime.minutes}
-                </div>
-            );
-            i++;
-        }
-        return times;
+                style={{ top, height }}
+                className={clsx(styles.timeline__add, index === selectedInterval?.index && styles.selected)}
+            />)
     }
 
     const createAddButtons = () => {
@@ -151,30 +163,31 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         return addButtons
     };
 
-    return (<div className={styles.appointements_wrap}>
-        <span>{appointementStore.startTime?.hour}-{appointementStore.startTime?.minutes}</span>
-        <div className={styles.timeline_container}>
-            <div className={styles.timeline__time} >
-                {[...Array(businessHours.closed - businessHours.open)].map((_, index) =>
-                    <div key={index} className={styles.timeline__hour}>
-                        <span>
-                            {businessHours.open + index}:00
+    return (
+        <div className={styles.appointements_wrap}>
+            <div className={styles.timeline_container}>
+                <div className={styles.timeline__time} >
+                    {[...Array(businessHours.closed - businessHours.open)].map((_, index) =>
+                        <div key={index} className={styles.timeline__hour}>
+                            <span>
+                                {businessHours.open + index}:00
                     </span>
-                    </div>)}
+                        </div>)}
+                </div>
+                <div className={styles.timeline__background_wrap}>
+                    <div className={styles.timeline__background} >{fillSlogan()}</div>
+                </div>
+                <div className={styles.timeline__add_wrap}>
+                    {createAddButtons()}
+                </div>
             </div>
-            <div className={styles.timeline__background_wrap}>
-                <div className={styles.timeline__background} >{fillSlogan()}</div>
+            <div>
+                <h3>Available times for period: <span>{selectedInterval?.startTime}  -  {selectedInterval?.endTime}</span></h3>
+                <div className={styles.times_wrap}>
+                    {selectedInterval !== null ? getPosibleTimes(selectedInterval!) : <span>	&lt;-- Select Period</span>}
+                </div>
             </div>
-            <div className={styles.timeline__add_wrap}>
-                {createAddButtons()}
-            </div>
-        </div>
-        <div>
-            <div>{selectedInterval?.startTime}  -  {selectedInterval?.endTime}</div>
-            <h3>Available termins</h3>
-            {selectedInterval !== null && getPosibleTimes(selectedInterval!)}
-        </div>
-    </div>);
+        </div>);
 
 
 }))

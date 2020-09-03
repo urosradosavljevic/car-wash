@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { useRouter } from 'next/router';
 import { inject, observer } from 'mobx-react'
 
 import OrderStore from '../stores/OrderStore'
@@ -15,42 +16,105 @@ interface IndexProps {
   orderStore?: OrderStore;
 }
 
+type StepTypes = "login" | "date" | "treatment" | "timeline" | "checkout";
+interface StepsState {
+  login: boolean;
+  date: boolean;
+  treatment: boolean;
+  time: boolean;
+  currentStep: StepTypes;
+}
+
+type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
+
+function reducer(state: StepsState, action: StepsAction) {
+  if (action.type === "reset") return initialStepMap
+  if (action.type === "current") return { ...state, current: action.payload }
+  return { ...state, [action.type]: true };
+}
+
+const initialStepMap: StepsState = {
+  login: false,
+  date: false,
+  treatment: false,
+  time: false,
+  currentStep: "login"
+}
+const memberInitialSteps: StepsState = {
+  login: true,
+  date: false,
+  treatment: false,
+  time: false,
+  currentStep: "date"
+}
+
 const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }) => {
-
   const appointementStore = orderStore!
+  const initialState = appointementStore.client ? memberInitialSteps : initialStepMap
 
-  const [step, setStep] = useState(0)
+  const [steps, dispatchStep] = useReducer(reducer, initialState);
+  const router = useRouter()
+
+  const nextStep = (type: StepTypes, next: StepTypes) => {
+    dispatchStep({ type });
+    dispatchStep({ type: "current", payload: next });
+  }
+
+  const tryScheduling = (e: React.FormEvent) => {
+    e.preventDefault();
+    let success = true;
+    dispatchStep({ type: "reset" });
+    alert("Don't be late");
+    if (success) router.push("/profile")
+  }
+
+  const navButton = (type: StepTypes, next: StepTypes, back: boolean = false) => (
+    <button
+      className={styles.step__nav_btn}
+      onClick={() => nextStep(type, next)}
+    >
+      {!back ? "Continue" : "Go Back"}
+    </button>
+  );
 
   const renderStep = () => {
-    switch (step) {
-      case 0:
-        return <Login />;
-      case 1:
-        return <DateSelect />;
-      case 2:
-        return <TreatmentSelect />
-      case 3:
-        return <Timeline />;
-      case 4:
-        return <Checkout />;
+    switch (steps.currentStep) {
+      case "date":
+        return (<>
+          <DateSelect />
+          {navButton("date", "treatment")}
+        </>);
+      case "treatment":
+        return (<>
+          <TreatmentSelect />
+          <div className={styles.step__nav}>
+            {navButton("treatment", "date", true)}
+            {navButton("treatment", "timeline")}
+          </div>
+        </>);
+      case "timeline":
+        return <>
+          <Timeline />
+          <div className={styles.step__nav}>
+            {navButton("timeline", "treatment", true)}
+            {navButton("timeline", "checkout")}</div>
+        </>;
+      case "checkout":
+        return <>
+          <Checkout />
+          <button className={styles.step__nav_btn} onClick={tryScheduling}>Schedule appointment</button>
+        </>;
       default:
-        return <Timeline />;
+        return <Login steps={steps} nextStep={() => nextStep("login", "date")} />;
     }
   }
 
   return (
     <Layout title="Schedule appointement">
-
       <div className={styles.container}>
-        <ScheduleProgress step={step} setStep={setStep} />
+        <ScheduleProgress steps={steps} currentStep={steps.currentStep} />
         <main className={styles.main}>
           {renderStep()}
-          <br />
-          <div className={styles.step__navigation_container}>
-            {step > 0 && <button onClick={() => setStep(step - 1)} >return</button>}
-            {step < 4 && <button onClick={() => setStep(step + 1)} >continue</button>}
-            {step == 4 && <button onClick={() => { }} >submit</button>}
-          </div>
         </main >
         <div />
       </div >

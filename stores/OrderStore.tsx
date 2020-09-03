@@ -14,7 +14,6 @@ const initial = {
     startTime: null,
     client: null,
 }
-console.log("initial", initial)
 
 class OrderStore {
     @observable
