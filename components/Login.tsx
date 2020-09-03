@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import styles from '../styles/Login.module.scss'
 
-
 interface Props {
     steps: any;
     nextStep: () => void;
@@ -39,6 +38,6 @@ export const Login: React.FC<Props> = ({ steps, nextStep }) => {
             <label>Password</label>
             <input type="password" />
         </div>
-        <button type="submit" onClick={() => tryLogin()}>Login</button>
+        <button type="submit" className={styles.login_btn} onClick={() => tryLogin()}>Login</button>
     </div>);
 }

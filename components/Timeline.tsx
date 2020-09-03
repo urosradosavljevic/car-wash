@@ -29,13 +29,15 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
 
     const [todayOccupied, setTodayOccupied] = useState(day)
 
-    const fillSlogan = () => [...Array(30)].map((_, index) => (
-        <p key={index}>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
-    ))
+    // const fillSlogan = () => [...Array(30)].map((_, index) => (
+    //     <p key={index}>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
+    // ))
 
     const hoursInterval = (treatment: any) => (treatment.start.hour + (treatment.start.minutes / 60))
 
     const numberToTime = (number: number) => ({ hour: Math.floor(number), minutes: (number - Math.floor(number)) * 60 })
+
+    const timeToString = (t: Time) => `${t.hour}:${t.minutes === 0 ? "00" : t.minutes}`;
 
     const selectStartTime = (startTime: Time) => (appointementStore.setStartTime(startTime))
 
@@ -175,17 +177,21 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
                         </div>)}
                 </div>
                 <div className={styles.timeline__background_wrap}>
-                    <div className={styles.timeline__background} >{fillSlogan()}</div>
+                    {/* <div className={styles.timeline__background}>{fillSlogan()}</div>*/}
                 </div>
                 <div className={styles.timeline__add_wrap}>
                     {createAddButtons()}
                 </div>
             </div>
-            <div>
-                <h3>Available times for period: <span>{selectedInterval?.startTime}  -  {selectedInterval?.endTime}</span></h3>
-                <div className={styles.times_wrap}>
-                    {selectedInterval !== null ? getPosibleTimes(selectedInterval!) : <span>	&lt;-- Select Period</span>}
-                </div>
+            <div className={styles.times_container}>
+                <h3>Available times for period</h3>
+                {selectedInterval &&
+                    <div>{timeToString(numberToTime(selectedInterval?.startTime))} - {timeToString(numberToTime(selectedInterval?.endTime))}</div>}
+                {selectedInterval !== null ?
+                    <div className={styles.times_wrap}>
+                        {getPosibleTimes(selectedInterval!)}
+                    </div> :
+                    <div style={{ marginTop: "3rem" }}>	&lt;-- Select Period</div>}
             </div>
         </div>);
 

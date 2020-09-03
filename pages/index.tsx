@@ -1,5 +1,4 @@
 import { useReducer } from 'react';
-import { useRouter } from 'next/router';
 import { inject, observer } from 'mobx-react'
 
 import OrderStore from '../stores/OrderStore'
@@ -28,8 +27,10 @@ interface StepsState {
 type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
 
 function reducer(state: StepsState, action: StepsAction) {
+  console.log("reducer state:", state)
+  console.log("reducer action:", action)
   if (action.type === "reset") return initialStepMap
-  if (action.type === "current") return { ...state, current: action.payload }
+  if (action.type === "current") return { ...state, currentStep: action.payload }
   return { ...state, [action.type]: true };
 }
 
@@ -50,23 +51,16 @@ const memberInitialSteps: StepsState = {
 
 const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }) => {
   const appointementStore = orderStore!
-  const initialState = appointementStore.client ? memberInitialSteps : initialStepMap
+  // check cookies for user
+  const initialState = false ? memberInitialSteps : initialStepMap
 
   const [steps, dispatchStep] = useReducer(reducer, initialState);
-  const router = useRouter()
 
   const nextStep = (type: StepTypes, next: StepTypes) => {
     dispatchStep({ type });
     dispatchStep({ type: "current", payload: next });
   }
 
-  const tryScheduling = (e: React.FormEvent) => {
-    e.preventDefault();
-    let success = true;
-    dispatchStep({ type: "reset" });
-    alert("Don't be late");
-    if (success) router.push("/profile")
-  }
 
   const navButton = (type: StepTypes, next: StepTypes, back: boolean = false) => (
     <button
@@ -78,11 +72,15 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
   );
 
   const renderStep = () => {
+    console.log("steps.currentStep", steps.currentStep);
+
     switch (steps.currentStep) {
       case "date":
         return (<>
           <DateSelect />
-          {navButton("date", "treatment")}
+          <div className={styles.step__nav}>
+            {navButton("date", "treatment")}
+          </div>
         </>);
       case "treatment":
         return (<>
@@ -101,8 +99,10 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
         </>;
       case "checkout":
         return <>
-          <Checkout />
-          <button className={styles.step__nav_btn} onClick={tryScheduling}>Schedule appointment</button>
+          <div className={styles.step__nav}>
+            <Checkout nextStep={() => dispatchStep({ type: "reset" })} />
+            {navButton("timeline", "treatment", true)}
+          </div>
         </>;
       default:
         return <Login steps={steps} nextStep={() => nextStep("login", "date")} />;

@@ -10,6 +10,7 @@ import OrderStore from '../stores/OrderStore';
 import styles from '../styles/Treatment.module.scss'
 import { Vehicle } from '../constants/types/Vehicle';
 import { Treatment } from '../constants/types/Treatment';
+import clsx from 'clsx';
 
 interface Props {
     orderStore?: OrderStore;
@@ -18,8 +19,8 @@ interface Props {
 export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
 
-    const isVehicleSelected = (vehicle: Vehicle) => ({ color: appointementStore.vehicle === vehicle ? "greenyellow" : "black" })
-    const isTreatmentSelected = (treatment: Treatment) => ({ color: appointementStore.treatment === treatment ? "greenyellow" : "black" })
+    const isVehicleSelected = (vehicle: Vehicle) => appointementStore.vehicle === vehicle && styles.option__btn_selected
+    const isTreatmentSelected = (treatment: Treatment) => appointementStore.treatment === treatment && styles.option__btn_selected
 
     return (
         <div className={styles.treatment__wrapp}>
@@ -41,30 +42,30 @@ export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({
             </div>
             <div className={styles.treatment__options_wrapp}>
                 <div className={styles.options}>
-                    <div className={styles.option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.car)}>
-                        <FaCarAlt size="3rem" style={isVehicleSelected(Vehicle.car)} />
+                    <div className={clsx(styles.option_wrap, isVehicleSelected(Vehicle.car))} onClick={() => appointementStore.setVehicle(Vehicle.car)}>
+                        <FaCarAlt size="3rem" />
                         <span>Car</span>
                     </div>
-                    <div className={styles.option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.van)}>
-                        <FaShuttleVan size="3rem" style={isVehicleSelected(Vehicle.van)} />
+                    <div className={clsx(styles.option_wrap, isVehicleSelected(Vehicle.van))} onClick={() => appointementStore.setVehicle(Vehicle.van)}>
+                        <FaShuttleVan size="3rem" />
                         <span>Van</span>
                     </div>
-                    <div className={styles.option_wrap} onClick={() => appointementStore.setVehicle(Vehicle.truck)}>
-                        <FaTruck size="3rem" style={isVehicleSelected(Vehicle.truck)} />
+                    <div className={clsx(styles.option_wrap, isVehicleSelected(Vehicle.truck))} onClick={() => appointementStore.setVehicle(Vehicle.truck)}>
+                        <FaTruck size="3rem" />
                         <span>Truck</span>
                     </div>
                 </div>
                 <div className={styles.options}>
-                    <div className={styles.option_wrap} onClick={() => appointementStore.setTreatment(Treatment.inside)}>
-                        <GiVacuumCleaner size="3rem" style={isTreatmentSelected(Treatment.inside)} />
+                    <div className={clsx(styles.option_wrap, isTreatmentSelected(Treatment.inside))} onClick={() => appointementStore.setTreatment(Treatment.inside)}>
+                        <GiVacuumCleaner size="3rem" />
                         <span>Inside</span>
                     </div>
-                    <div className={styles.option_wrap} onClick={() => appointementStore.setTreatment(Treatment.outside)}>
-                        <FaShower size="3rem" style={isTreatmentSelected(Treatment.outside)} />
+                    <div className={clsx(styles.option_wrap, isTreatmentSelected(Treatment.outside))} onClick={() => appointementStore.setTreatment(Treatment.outside)}>
+                        <FaShower size="3rem" />
                         <span>Outside</span>
                     </div>
-                    <div className={styles.option_wrap} onClick={() => appointementStore.setTreatment(Treatment.full)}>
-                        <WiStars size="3rem" style={isTreatmentSelected(Treatment.full)} />
+                    <div className={clsx(styles.option_wrap, isTreatmentSelected(Treatment.full))} onClick={() => appointementStore.setTreatment(Treatment.full)}>
+                        <WiStars size="3rem" />
                         <span>Full</span>
                     </div>
                 </div>

@@ -22,7 +22,6 @@ export const ScheduleProgress: React.FC<Props> = ({ steps, currentStep }) => {
 
     return (<header className={styles.progress}>
         <div className={styles.progress_container}>
-            <h4>Schedule appointement</h4>
             <div className={styles.progress_list}>
                 <div role="button" data-name="Login" className={renderStyle("login")}>
                     <span>

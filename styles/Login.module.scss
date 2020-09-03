@@ -1,15 +1,26 @@
+@import "./presets";
+
 .login_container,
 .login_container > div {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 300px;
 }
 .login_container input,
 .login_container button {
-  height: 1.8rem;
   width: 100%;
   margin-top: 0.2rem;
+}
+.login_container input {
+  height: 1.8rem;
 }
 
 .login_container > * {
   margin-bottom: 1.5rem;
+}
+
+.login_btn {
+  @include button();
+  margin: 0;
 }

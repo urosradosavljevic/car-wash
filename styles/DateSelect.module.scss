@@ -1,5 +1,6 @@
+@import "./colors";
+
 .datepickerWrap {
-  .react-datepicker__header {
-    background: yellow;
-  }
+  color: color(medium);
+  font-weight: 500;
 }

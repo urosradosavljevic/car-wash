@@ -1,6 +1,7 @@
+@import "./colors.scss";
+@import "./presets.scss";
+
 .treatment__wrapp {
-  // display: grid;
-  // grid-template-columns: auto 1fr;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -21,9 +22,10 @@
     display: flex;
     flex-direction: row;
     justify-items: center;
-    margin: 1rem;
+    margin: 1.1rem;
   }
   span {
+    font-weight: 500;
     font-size: 1.2rem;
     margin-left: 0.2rem;
   }
@@ -31,19 +33,54 @@
 .options {
   display: flex;
   flex-direction: row;
-  margin-bottom: 0.5rem;
   justify-content: center;
+  margin-bottom: 0.5rem;
 }
 .option_wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 1rem;
+  align-items: center;
+  width: 4rem;
+  padding: auto;
+  margin: 1.7rem;
+  transition: all ease 0.5s;
+  svg,
+  span {
+    z-index: 3;
+    user-select: none;
+    color: color(dark);
+  }
+  span {
+    font-weight: 700;
+  }
+}
+
+.option_wrap::before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4.8rem;
+  height: 5.8rem;
+  border: 0.3rem solid color(dark);
+  border-radius: 0.3rem;
+  transition: all ease 0.5s;
 }
 .option_wrap:hover {
   cursor: pointer;
 }
-.option_wrap:hover {
-  cursor: pointer;
+
+.option__btn_selected {
+  svg,
+  span {
+    color: color(bright);
+  }
 }
-.option_icon {
+
+.option__btn_selected::before {
+  background-color: color(dark);
+  border: 0.3rem solid color(dark);
 }

@@ -97,12 +97,12 @@
   outline: none;
   border: solid transparent 1px;
   border-radius: 50%;
-  background-color: #216ba5;
+  background-color: #2b7a78;
   color: #fff;
 }
 
 .react-datepicker__day--selected:hover {
-  background-color: #1d5d90;
+  background-color: #287a78;
 }
 
 .react-datepicker__day--outside-month {

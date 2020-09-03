@@ -1,11 +1,9 @@
 $colors: (
-  main: #fa6acc,
-  secondary: #f02a52,
-  highlight: #09a6e4,
-  button: #f02a52,
-  buttonHover: #f02a52,
-  buttonActive: #f02a52,
-  buttonSelected: #f02a52,
+  dark: #005254,
+  medium: #006769,
+  light: #00b9bc,
+  bright: #feffff,
+  gray: #bcbcbc,
 );
 
 @function color($key) {

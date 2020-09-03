@@ -1,0 +1,18 @@
+@import "./colors.scss";
+
+@mixin button {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: color(bright);
+  padding: 0.7rem 1rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  background-color: color(dark);
+  transition: all ease 0.2s;
+  border: none;
+  outline: none;
+  &:hover {
+    color: color(bright);
+    background-color: color(light);
+  }
+}
