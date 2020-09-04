@@ -7,7 +7,7 @@ import { BiCalendarAlt } from 'react-icons/bi/';
 
 import vehicles from '../constants/vehicles';
 import OrderStore from '../stores/OrderStore';
-import styles from '../styles/Treatment.module.scss'
+import styles from '../styles/steps/Treatment.module.scss'
 import { Vehicle } from '../constants/types/Vehicle';
 import { Treatment } from '../constants/types/Treatment';
 import clsx from 'clsx';

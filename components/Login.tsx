@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import styles from '../styles/Login.module.scss'
+import styles from '../styles/steps/Login.module.scss'
 
 interface Props {
     steps: any;

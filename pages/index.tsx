@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import { inject, observer } from 'mobx-react'
 
 import OrderStore from '../stores/OrderStore'
-import styles from '../styles/Home.module.scss'
+import styles from '../styles/pages/Home.module.scss'
 import { TreatmentSelect } from '../components/TreatmentSelect';
 import { Timeline } from '../components/Timeline';
 import { DateSelect } from '../components/DateSelect';
@@ -10,7 +10,6 @@ import { Checkout } from '../components/Checkout';
 import Layout from '../components/Layout';
 import { ScheduleProgress } from '../components/ScheduleProgress';
 import { Login } from '../components/Login';
-import { Navigation } from '../components/shared/Navigation';
 
 interface IndexProps {
   orderStore?: OrderStore;

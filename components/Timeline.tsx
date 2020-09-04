@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { inject } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 
-import styles from '../styles/Timeline.module.scss'
+import styles from '../styles/steps/Timeline.module.scss'
 import { businessHours, day } from "../data"
 import OrderStore from '../stores/OrderStore'
 import { timelineHeight } from '../constants/style'
@@ -191,7 +191,7 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
                     <div className={styles.times_wrap}>
                         {getPosibleTimes(selectedInterval!)}
                     </div> :
-                    <div style={{ marginTop: "3rem" }}>	&lt;-- Select Period</div>}
+                    <div style={{ marginTop: "3rem" }}>	&lt;-- Select Specific Period</div>}
             </div>
         </div>);
 

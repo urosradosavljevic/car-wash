@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
 
-import styles from "../styles/Layout.module.scss"
+import styles from "../styles/shared/Layout.module.scss"
 import { SideMenu } from './shared/SideMenu'
 
 type Props = {

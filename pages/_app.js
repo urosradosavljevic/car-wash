@@ -6,7 +6,7 @@ import { getInitialOrderState } from "../stores/OrderStore";
 import { getInitialUIState } from "../stores/UIStore";
 import initializeStores from "../stores/stores";
 
-import "../styles/custom_datepicker.css";
+import "../styles/steps/custom_datepicker.css";
 import "../styles/globals.css";
 
 class CustomApp extends App {

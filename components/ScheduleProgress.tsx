@@ -5,7 +5,7 @@ import { GiFlyingFlag } from 'react-icons/gi/';
 import { AiOutlineSchedule } from 'react-icons/ai/';
 import clsx from 'clsx';
 
-import styles from '../styles/ScheduleProgress.module.scss'
+import styles from '../styles/steps/ScheduleProgress.module.scss'
 
 interface Props {
     steps: any;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import DatePicker from "react-datepicker"
 import { inject, observer } from 'mobx-react';
 
-import styles from '../styles/DateSelect.module.scss'
+import styles from '../styles/steps/DateSelect.module.scss'
 import OrderStore from '../stores/OrderStore'
 
 interface Props {
