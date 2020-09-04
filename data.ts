@@ -1,4 +1,4 @@
-import vehicles from "./constants/vehicles";
+import treatments from "./constants/treatments";
 import { Time } from "./constants/types/Time";
 import { ClientData } from "./constants/types/ClientData";
 
@@ -18,7 +18,7 @@ export const day: Array<Appointement> = [
       name: "John",
       phoneNumber: "+384",
     },
-    treatment: vehicles.car.inside,
+    treatment: treatments.car.inside,
     start: {
       hour: 7,
       minutes: 0,
@@ -29,7 +29,7 @@ export const day: Array<Appointement> = [
       name: "Mike",
       phoneNumber: "+384",
     },
-    treatment: vehicles.car.inside,
+    treatment: treatments.car.inside,
     start: {
       hour: 9,
       minutes: 0,
@@ -40,7 +40,7 @@ export const day: Array<Appointement> = [
       name: "Sarah",
       phoneNumber: "+384",
     },
-    treatment: vehicles.truck.outside,
+    treatment: treatments.truck.outside,
     start: {
       hour: 12,
       minutes: 30,
@@ -51,7 +51,7 @@ export const day: Array<Appointement> = [
       name: "Alister",
       phoneNumber: "+384",
     },
-    treatment: vehicles.car.full,
+    treatment: treatments.car.full,
     start: {
       hour: 15,
       minutes: 0,
@@ -62,7 +62,7 @@ export const day: Array<Appointement> = [
       name: "Tommy",
       phoneNumber: "+384",
     },
-    treatment: vehicles.car.full,
+    treatment: treatments.car.full,
     start: {
       hour: 15,
       minutes: 30,
@@ -73,7 +73,7 @@ export const day: Array<Appointement> = [
       name: "Cari",
       phoneNumber: "+384",
     },
-    treatment: vehicles.van.full,
+    treatment: treatments.van.full,
     start: {
       hour: 17,
       minutes: 0,

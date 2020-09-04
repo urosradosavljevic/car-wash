@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { inject } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
+import clsx from 'clsx'
 
-import styles from '../styles/steps/Timeline.module.scss'
+import { numberToTime, compareTimes, hoursInterval, timeToString } from '../util/helpers'
 import { businessHours, day } from "../data"
 import OrderStore from '../stores/OrderStore'
 import { timelineHeight } from '../constants/style'
 import { Time } from '../constants/types/Time'
-import vehicles from '../constants/vehicles'
-import clsx from 'clsx'
+import treatments from '../constants/treatments'
+
+import styles from '../styles/steps/Timeline.module.scss'
 
 interface Props {
     orderStore?: OrderStore;
@@ -23,7 +25,7 @@ interface Interval {
 export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
     const pixelsPerHour = Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
-    const duration = (vehicles[appointementStore.vehicle][appointementStore.treatment].duration / 60);
+    const duration = (treatments[appointementStore.vehicle][appointementStore.treatment].duration / 60);
 
     const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
 
@@ -33,24 +35,13 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
     //     <p key={index}>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
     // ))
 
-    const hoursInterval = (treatment: any) => (treatment.start.hour + (treatment.start.minutes / 60))
-
-    const numberToTime = (number: number) => ({ hour: Math.floor(number), minutes: (number - Math.floor(number)) * 60 })
-
-    const timeToString = (t: Time) => `${t.hour}:${t.minutes === 0 ? "00" : t.minutes}`;
-
-    const selectStartTime = (startTime: Time) => (appointementStore.setStartTime(startTime))
+    const selectStartTime = (startTime: Time) =>
+        appointementStore.setStartTime(startTime);
 
     const buttonClicked = (startTime: number, endTime: number, index: number) => {
         setSelectedInterval({ index, startTime, endTime });
     }
 
-    const compareTimes = (time1: Time, time2: Time) => {
-        if (time1 && time2) {
-            if (time1.hour === time2.hour && time1.minutes === time2.minutes) return true;
-            return false;
-        }
-    }
 
     // Insert appointement 
     // const buttonClicked = (startTime: number, endTime: number) => {

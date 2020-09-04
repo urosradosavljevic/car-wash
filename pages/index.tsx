@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { inject, observer } from 'mobx-react'
+import { useRouter } from 'next/router';
 
 import OrderStore from '../stores/OrderStore'
 import styles from '../styles/pages/Home.module.scss'
@@ -53,12 +54,22 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
   const initialState = false ? memberInitialSteps : initialStepMap
 
   const [steps, dispatchStep] = useReducer(reducer, initialState);
+  const router = useRouter()
 
   const nextStep = (type: StepTypes, next: StepTypes) => {
     dispatchStep({ type });
     dispatchStep({ type: "current", payload: next });
   }
 
+  const submitTreatment = () => {
+    let success = true;
+
+    if (success) {
+      dispatchStep({ type: "reset" })
+      alert("Don't be late");
+      router.push("/profile")
+    }
+  }
 
   const navButton = (type: StepTypes, next: StepTypes, back: boolean = false) => (
     <button
@@ -70,7 +81,6 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
   );
 
   const renderStep = () => {
-    console.log("steps.currentStep", steps.currentStep);
 
     switch (steps.currentStep) {
       case "date":
@@ -97,9 +107,13 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
         </>;
       case "checkout":
         return <>
+          <Checkout />
           <div className={styles.step__nav}>
-            <Checkout nextStep={() => dispatchStep({ type: "reset" })} />
             {navButton("timeline", "treatment", true)}
+            <button
+              className={styles.step__nav_btn}
+              onClick={() => submitTreatment()}
+            >Continue</button>
           </div>
         </>;
       default:

@@ -5,7 +5,7 @@ import { GiVacuumCleaner } from 'react-icons/gi/';
 import { WiStars } from 'react-icons/wi/';
 import { BiCalendarAlt } from 'react-icons/bi/';
 
-import vehicles from '../constants/vehicles';
+import treatments from '../constants/treatments';
 import OrderStore from '../stores/OrderStore';
 import styles from '../styles/steps/Treatment.module.scss'
 import { Vehicle } from '../constants/types/Vehicle';
@@ -33,11 +33,11 @@ export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({
                 </div>
                 <div>
                     <FaRegClock size="1.8rem" />
-                    <span>{" "}{vehicles[appointementStore.vehicle][appointementStore.treatment].duration} min</span>
+                    <span>{" "}{treatments[appointementStore.vehicle][appointementStore.treatment].duration} min</span>
                 </div>
                 <div>
                     <FaMoneyBillWave size="1.8rem" />
-                    <span>{" "}{vehicles[appointementStore.vehicle][appointementStore.treatment].price} €</span>
+                    <span>{" "}{treatments[appointementStore.vehicle][appointementStore.treatment].price} €</span>
                 </div>
             </div>
             <div className={styles.treatment__options_wrapp}>
