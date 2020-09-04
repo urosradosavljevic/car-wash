@@ -2,8 +2,10 @@ import App from "next/app";
 import React from "react";
 import { Provider } from "mobx-react";
 
-import OrderStore, { getInitialStoreState } from "../stores/OrderStore";
+import { getInitialOrderState } from "../stores/OrderStore";
+import { getInitialUIState } from "../stores/UIStore";
 import initializeStores from "../stores/stores";
+
 import "../styles/custom_datepicker.css";
 import "../styles/globals.css";
 
@@ -14,16 +16,20 @@ class CustomApp extends App {
 
   static async getInitialProps(appContext) {
     const appProps = await App.getInitialProps(appContext);
-    const initialMobxState = await getInitialStoreState();
+    const initialOrderState = await getInitialOrderState();
+    const initialUIState = await getInitialUIState();
 
     return {
       ...appProps,
-      initialMobxState,
+      initialOrderState,
+      initialUIState,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
-    state.orderStore.hydrate(props.initialMobxState);
+    state.orderStore.hydrate(props.initialOrderState);
+    state.uiStore.hydrate(props.initialUIState);
+
     return state;
   }
 

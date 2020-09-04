@@ -1,6 +1,6 @@
 import { observable, action } from "mobx"
 
-import { OrderStoreData } from "../constants/types/OrderStoreData";
+import { OrderStoreData } from "../constants/types/store/OrderStoreData";
 import { ClientData } from "../constants/types/ClientData";
 import { Vehicle } from "../constants/types/Vehicle";
 import { Time } from "../constants/types/Time";
@@ -65,8 +65,7 @@ class OrderStore {
     }
 }
 
-export const getInitialStoreState = async () => {
-
+export const getInitialOrderState = async () => {
     return initial;
 }
 

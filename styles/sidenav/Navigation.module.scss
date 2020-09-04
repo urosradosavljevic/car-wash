@@ -1,0 +1,65 @@
+@import "../sizes.scss";
+@import "../colors.scss";
+
+.list {
+  margin: 0;
+  padding: 1.5rem;
+  padding-top: 100px;
+  top: 100px;
+  width: size(nav-opened);
+}
+/*list item start*/
+
+.listItem {
+  list-style: none;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover,
+  &:hover svg {
+    color: color(light);
+  }
+}
+.iconPlaceholder {
+  margin-right: 1.5rem;
+}
+.textPlaceholder {
+  flex: 1;
+  font-size: 1.5rem;
+}
+.link {
+  color: color(medium);
+  text-decoration: none;
+}
+/*list item stop*/
+.toogleButton_wrap {
+  outline: none;
+  border: none;
+  user-select: none;
+  cursor: pointer;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: transparent;
+}
+.toogleButton {
+  margin: auto;
+}
+.navLogo {
+  position: absolute;
+  bottom: 3rem;
+  left: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  outline: none;
+  border: none;
+  user-select: none;
+  background: transparent;
+  svg {
+    margin: auto;
+  }
+}

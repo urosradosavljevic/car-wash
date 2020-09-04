@@ -10,6 +10,7 @@ import { Checkout } from '../components/Checkout';
 import Layout from '../components/Layout';
 import { ScheduleProgress } from '../components/ScheduleProgress';
 import { Login } from '../components/Login';
+import { Navigation } from '../components/shared/Navigation';
 
 interface IndexProps {
   orderStore?: OrderStore;
@@ -27,8 +28,6 @@ interface StepsState {
 type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
 
 function reducer(state: StepsState, action: StepsAction) {
-  console.log("reducer state:", state)
-  console.log("reducer action:", action)
   if (action.type === "reset") return initialStepMap
   if (action.type === "current") return { ...state, currentStep: action.payload }
   return { ...state, [action.type]: true };
