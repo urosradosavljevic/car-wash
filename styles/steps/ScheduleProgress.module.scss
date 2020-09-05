@@ -2,10 +2,12 @@
 
 .progress {
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 10px 20px;
   padding-bottom: 50px;
-  margin: 0 auto;
-  min-width: 800px;
+  margin: 0;
+  max-width: 800px;
 
   .progress_container {
     position: relative;
@@ -51,26 +53,20 @@
     white-space: nowrap;
     display: block;
     position: absolute;
-    bottom: -30px;
+    bottom: -2rem;
     left: 50%;
     transform: translate(-50%, 0);
   }
 
   .progress__list_item_done span {
     background-color: color(light);
+    transform: all 0.5s ease;
     svg {
       color: color(dark);
     }
   }
-  .progress__list_item_current.progress__list_item::after {
-    content: "";
-    white-space: nowrap;
-    display: block;
-    position: absolute;
-    border: 17px solid transparent;
-    border-bottom-color: white;
-    bottom: -60px;
-    left: 50%;
-    transform: translate(-50%, 0);
+  .progress__list_item_current.progress__list_item span {
+    border: solid color(light) 0.3rem;
+    transform: all 0.5s ease;
   }
 }

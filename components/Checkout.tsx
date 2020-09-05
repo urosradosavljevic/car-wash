@@ -1,8 +1,6 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { FaUserAlt } from 'react-icons/fa/';
-import { getDate } from 'date-fns';
-
 import OrderStore from '../stores/OrderStore';
 import styles from '../styles/steps/Checkout.module.scss';
 import { timeToString } from '../util/helpers';

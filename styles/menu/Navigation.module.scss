@@ -7,8 +7,17 @@
   padding-top: 100px;
   top: 100px;
   width: size(nav-opened);
+  // @media only screen and (max-width: 600px) {
+  //   display: inline;
+  //   flex-direction: row;
+  // }
 }
-/*list item start*/
+
+.mobile_list {
+  margin: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+}
 
 .listItem {
   list-style: none;
@@ -32,7 +41,7 @@
   color: color(medium);
   text-decoration: none;
 }
-/*list item stop*/
+
 .toogleButton_wrap {
   outline: none;
   border: none;
@@ -45,6 +54,13 @@
   height: 3rem;
   border-radius: 50%;
   background: transparent;
+  // @media only screen and (max-width: 600px) {
+  //   top: 1.5rem;
+  //   right: 1.5rem;
+  //   left: auto;
+  //   width: 3rem;
+  //   height: 3rem;
+  // }
 }
 .toogleButton {
   margin: auto;
@@ -62,4 +78,15 @@
   svg {
     margin: auto;
   }
+  // @media only screen and (max-width: 600px) {
+  //   position: absolute;
+  //   right: auto;
+  //   top: 2rem;
+  //   left: 2rem;
+  //   width: 2.5rem;
+  //   height: 2.5rem;
+  //   svg {
+  //     font-size: 2rem;
+  //   }
+  // }
 }

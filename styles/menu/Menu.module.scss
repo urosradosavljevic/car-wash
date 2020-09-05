@@ -2,6 +2,19 @@
 @import "../shared/colors.scss";
 @import "../shared/presets.scss";
 
+.bottom_nav {
+  position: absolute;
+  display: block;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: color(bright);
+  padding: 0 1rem;
+}
+
 .nav {
   display: block;
   top: 0;
@@ -14,7 +27,6 @@
   overflow-x: hidden;
   background: color(bright);
   transition: ease 0.4s all;
-  // @include dropshadow();
 }
 .nav_open {
   width: size(nav-opened);

@@ -4,6 +4,7 @@ import { UIStoreData } from "../constants/types/store/UIStoreData";
 
 const initial = {
     isNavOpen: false,
+    isMobile: false,
 }
 
 class UIStore {
@@ -14,9 +15,17 @@ class UIStore {
     toggleNav = () => {
         this.isNavOpen = !this.isNavOpen
     }
+    @observable
+    isMobile!: boolean;
+
+    @action
+    setIsMobile = (isMobile: boolean) => {
+        this.isMobile = isMobile
+    }
 
     hydrate(initialData: UIStoreData) {
         this.isNavOpen = initialData.isNavOpen;
+        this.isMobile = initialData.isMobile;
     }
 }
 

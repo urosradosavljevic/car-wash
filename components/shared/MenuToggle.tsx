@@ -2,7 +2,7 @@ import React from "react";
 import { inject, observer } from 'mobx-react';
 import { GrMenu, GrClose } from "react-icons/gr";
 
-import styles from "../../styles/sidenav/Navigation.module.scss"
+import styles from "../../styles/menu/Navigation.module.scss"
 import UIStore from "../../stores/UIStore";
 
 interface Props {

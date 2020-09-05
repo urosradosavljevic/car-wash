@@ -1,6 +1,6 @@
 import React from 'react'
 import { BsDropletHalf } from 'react-icons/bs/';
-import styles from '../../styles/sidenav/Navigation.module.scss';
+import styles from '../../styles/menu/Navigation.module.scss';
 
 interface Props {
 

@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx';
 import { inject, observer } from 'mobx-react';
 
-import styles from '../../styles/sidenav/SideMenu.module.scss';
+import styles from '../../styles/menu/Menu.module.scss';
 import UIStore from '../../stores/UIStore';
 import { Navigation } from './Navigation';
 import { MenuToggle } from './MenuToggle';
@@ -12,7 +12,7 @@ interface Props {
     uiStore?: UIStore;
 }
 
-export const SideMenu: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) => {
+export const Menu: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) => {
     const ui = uiStore!;
     return (
         <nav

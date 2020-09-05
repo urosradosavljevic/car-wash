@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import styles from '../../styles/sidenav/Navigation.module.scss';
+import styles from '../../styles/menu/Navigation.module.scss';
 import { sidebarNavItems } from '../../constants/navItems';
 
 
