@@ -4,8 +4,7 @@
 .login_container > div {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 300px;
+  width: 200px;
 }
 .login_container input,
 .login_container button {
@@ -14,6 +13,7 @@
 }
 .login_container input {
   height: 1.8rem;
+  flex: 1;
 }
 
 .login_container > * {

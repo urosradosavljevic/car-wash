@@ -26,17 +26,17 @@ export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({
         <div className={styles.treatment__wrapp}>
             <div className={styles.treatment__selected}>
                 <div>
-                    <BiCalendarAlt size="1.8rem" />
+                    <BiCalendarAlt size="1.2rem" />
                     <span>{" "}
                         {appointementStore.date?.getDate()}.{appointementStore.date?.getMonth() && appointementStore.date?.getMonth() + 1}.
                     </span>
                 </div>
                 <div>
-                    <FaRegClock size="1.8rem" />
+                    <FaRegClock size="1.2rem" />
                     <span>{" "}{treatments[appointementStore.vehicle][appointementStore.treatment].duration} min</span>
                 </div>
                 <div>
-                    <FaMoneyBillWave size="1.8rem" />
+                    <FaMoneyBillWave size="1.2rem" />
                     <span>{" "}{treatments[appointementStore.vehicle][appointementStore.treatment].price} €</span>
                 </div>
             </div>

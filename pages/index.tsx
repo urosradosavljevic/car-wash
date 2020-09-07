@@ -98,8 +98,8 @@ const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
         </>);
       case "timeline":
         return <>
-          {/* {ui.isMobile ? <TimelineMobile /> : <Timeline />} */}
-          <TimelineMobile />
+          {ui.isMobile ? <TimelineMobile /> : <Timeline />}
+          {/* <TimelineMobile /> */}
           <div className={styles.step__nav}>
             {navButton("timeline", "treatment", true)}
             {navButton("timeline", "checkout")}</div>

@@ -9,6 +9,11 @@
   display: grid;
   grid-template-columns: auto auto;
   gap: 3rem;
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: none;
+    grid-template-rows: auto auto;
+  }
 }
 .checkout__treatment_wrap {
   display: flex;
@@ -23,6 +28,7 @@
 .checkout__client_wrap {
   display: flex;
   flex-direction: row;
+  margin-bottom: 0.5rem;
   width: 100%;
 }
 .checkout__client_data {

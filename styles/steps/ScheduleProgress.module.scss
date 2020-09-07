@@ -4,8 +4,8 @@
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.8rem 2rem;
-  padding-bottom: 4rem;
+  padding: 0.5rem 2rem;
+  padding-bottom: 2.8rem;
   margin: 0;
   max-width: 800px;
 
@@ -55,6 +55,7 @@
   }
   .progress__list_item::before {
     content: attr(data-name);
+    color: color(light);
     white-space: nowrap;
     display: block;
     position: absolute;
@@ -73,8 +74,16 @@
       color: color(dark);
     }
   }
-  .progress__list_item_current.progress__list_item span {
-    border: solid color(light) 0.3rem;
+  .progress__list_item_current.progress__list_item::after {
+    content: "";
+    position: absolute;
+    top: -0.45rem;
+    left: -0.45rem;
+    width: 3.4rem;
+    height: 3.4rem;
+
+    border: solid color(light) 0.5rem;
+    border-radius: 50%;
     transform: all 0.5s ease;
   }
 }

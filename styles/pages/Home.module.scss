@@ -2,11 +2,12 @@
 @import "../shared/presets";
 
 .container {
-  min-height: 100vh;
-  padding: 0;
+  height: 100vh;
+  padding: 0 0.4rem;
   display: grid;
   grid-template-rows: auto 1fr auto;
   background-color: color(dark);
+  overflow: auto;
 
   button {
     cursor: pointer;
@@ -28,7 +29,7 @@
 .step__nav {
   display: flex;
   flex-direction: row;
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 100%;
 }
 .step__nav_btn {

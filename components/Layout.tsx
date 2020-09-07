@@ -21,7 +21,7 @@ export const Layout: React.FC<Props> = inject("uiStore")(observer(({ children, t
             window.innerWidth < 600 ? ui.setIsMobile(true) : ui.setIsMobile(false);
             console.log("mobil", ui.isMobile)
         })
-    }, []);
+    });
 
     return (
         <>

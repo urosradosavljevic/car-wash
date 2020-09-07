@@ -22,7 +22,6 @@ export const Checkout: React.FC<Props> = inject("orderStore")(observer(({ orderS
                 <span>{appointementStore.client ? appointementStore.client.phoneNumber : "+381 63 658 695"}</span>
             </div>
         </div>
-        <hr />
         <div className={styles.checkout__appointement_wrap}>
             <div className={styles.checkout__summary_wrap}>
                 <span>Appointement summary:</span>

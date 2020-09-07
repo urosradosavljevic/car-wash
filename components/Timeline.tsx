@@ -21,9 +21,8 @@ interface Props {
 }
 
 
-export const Timeline: React.FC<Props> = inject("orderStore", "uiStore")(observer(({ orderStore, uiStore }) => {
+export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
-    const ui = uiStore!
     const pixelsPerHour = Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
     const selectedTreatmentDuration = (treatments[appointementStore.vehicle][appointementStore.treatment].duration / 60);
 
