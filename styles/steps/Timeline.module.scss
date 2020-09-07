@@ -5,6 +5,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .timeline_container {
@@ -102,6 +105,13 @@
   grid-template-columns: repeat(auto-fit, 5rem);
   gap: 0.5rem;
   margin-top: 2rem;
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: repeat(3, 5rem);
+  }
+}
+.mobile__times_wrap {
+  display: flex;
+  flex-direction: column;
 }
 
 .time__btn {

@@ -6,15 +6,16 @@ import { AiOutlineSchedule } from 'react-icons/ai/';
 import clsx from 'clsx';
 
 import styles from '../styles/steps/ScheduleProgress.module.scss'
+import { StepsState, StepTypes } from '../constants/types/Steps';
 
 interface Props {
-    steps: any;
+    steps: StepsState;
     currentStep: string | undefined;
 }
 
 export const ScheduleProgress: React.FC<Props> = ({ steps, currentStep }) => {
 
-    const renderStyle = (step: string) => clsx(
+    const renderStyle = (step: StepTypes) => clsx(
         styles.progress__list_item,
         steps[step] && styles.progress__list_item_done,
         currentStep === step && styles.progress__list_item_current

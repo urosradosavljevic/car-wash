@@ -1,7 +1,8 @@
 import { Time } from "../constants/types/Time";
+import { Appointement } from "../constants/types/Appointement";
 
-export const hoursInterval = (treatment: any) =>
-  treatment.start.hour + treatment.start.minutes / 60;
+export const appointementToHours = (appointement: Appointement) =>
+  appointement.start.hour + appointement.start.minutes / 60;
 
 export const numberToTime = (number: number) => ({
   hour: Math.floor(number),

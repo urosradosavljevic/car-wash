@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { inject } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 import clsx from 'clsx'
@@ -6,7 +6,6 @@ import clsx from 'clsx'
 import { numberToTime, compareTimes, appointementToHours, timeToString } from '../util/helpers'
 import { businessHours, day as selectedDay } from "../data"
 import OrderStore from '../stores/OrderStore'
-import { timelineHeight } from '../constants/style'
 import { Time } from '../constants/types/Time'
 import treatments from '../constants/treatments'
 
@@ -21,13 +20,11 @@ interface Props {
 }
 
 
-export const Timeline: React.FC<Props> = inject("orderStore", "uiStore")(observer(({ orderStore, uiStore }) => {
+export const TimelineMobile: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
     const appointementStore = orderStore!
-    const ui = uiStore!
-    const pixelsPerHour = Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
+
     const selectedTreatmentDuration = (treatments[appointementStore.vehicle][appointementStore.treatment].duration / 60);
 
-    const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
 
     // const fillSlogan = () => [...Array(30)].map((_, index) => (
     //     <p key={index}>OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED&nbsp;&nbsp;&nbsp;&nbsp;OCCUPIED</p>
@@ -35,11 +32,6 @@ export const Timeline: React.FC<Props> = inject("orderStore", "uiStore")(observe
 
     const selectStartTime = (startTime: Time) =>
         appointementStore.setStartTime(startTime);
-
-    const buttonClicked = (startTime: number, endTime: number, index: number) => {
-        setSelectedInterval({ index, startTime, endTime });
-    }
-
 
     // Insert appointement 
     // const buttonClicked = (startTime: number, endTime: number) => {
@@ -90,24 +82,17 @@ export const Timeline: React.FC<Props> = inject("orderStore", "uiStore")(observe
         return times;
     }
 
-    const createIntervalButton = (top: number, bottom: number, startTime: number, endTime: number, index: number) => {
-        top = Math.floor(top)
-        const height = Math.floor(bottom - top)
+    // const return  = (startTime: number, endTime: number, index: number) => {
 
-        // Don't show intervals shorter than 15min ~ 17px
-        if (height < pixelsPerHour / 4) return null
+    //     return (
+    //         <div
+    //             role="button" data-index={index}
+    //             onClick={() => buttonClicked(startTime, endTime, index)}
+    //             className={clsx(styles.timeline__add, index === selectedInterval?.index && styles.selected)}
+    //         />)
+    // }
 
-        return (
-            <div
-                role="button" data-index={index}
-                onClick={() => buttonClicked(startTime, endTime, index)}
-                style={{ top, height }}
-                className={clsx(styles.timeline__add, index === selectedInterval?.index && styles.selected)}
-            />)
-    }
-
-    const createIntervalButtons = () => {
-        let buttonLastIndex = 0
+    const extractIntervals = () => {
 
         const intervals = []
         const appointements = selectedDay.sort((a, b) => {
@@ -128,72 +113,43 @@ export const Timeline: React.FC<Props> = inject("orderStore", "uiStore")(observe
             formerIntervalEnd = firstAppointmentTime + (appointements[0].treatment.duration / 60)
         }
 
-        const addButtons = [];
         appointements.forEach((appointement: Appointement) => {
             const appointementStartTime = (appointement.start.hour + appointement.start.minutes / 60)
             const appointementEndTime = appointementStartTime + (appointement.treatment.duration / 60)
 
-            const top = (formerIntervalEnd - businessHours.open) * pixelsPerHour
-            const bottom = (appointementStartTime - businessHours.open) * pixelsPerHour
 
             freeIntervalStart = formerIntervalEnd
             freeIntervalEnd = appointementStartTime
 
             formerIntervalEnd = appointementEndTime
 
-            const btn = createIntervalButton(top, bottom, freeIntervalStart, freeIntervalEnd, buttonLastIndex)
-
-            buttonLastIndex++;
-
             if (freeIntervalStart < freeIntervalEnd) {
-                addButtons.push(btn)
-                intervals.push({ freeIntervalStart, freeIntervalEnd })
+                intervals.push({ startTime: freeIntervalStart, endTime: freeIntervalEnd })
             }
         })
-
-        const top = (formerIntervalEnd - businessHours.open) * pixelsPerHour
-        const bottom = (businessHours.closed - businessHours.open) * pixelsPerHour
 
         freeIntervalStart = formerIntervalEnd - businessHours.open
         freeIntervalEnd = businessHours.closed - businessHours.open
 
-        const btn = createIntervalButton(top, bottom, freeIntervalStart, freeIntervalEnd, buttonLastIndex)
-        buttonLastIndex++;
-
         if (freeIntervalStart < freeIntervalEnd) {
-            addButtons.push(btn)
-            intervals.push({ freeIntervalStart, freeIntervalEnd })
+            intervals.push({ startTime: freeIntervalStart, endTime: freeIntervalEnd })
         }
-        return addButtons
+        return intervals
     };
+    const intervals = extractIntervals()
 
     return (
         <div className={styles.appointements_wrap}>
-            <div className={styles.timeline_container}>
-                <div className={styles.timeline__time} >
-                    {[...Array(businessHours.closed - businessHours.open)].map((_, index) =>
-                        <div key={index} className={styles.timeline__hour}>
-                            <span>
-                                {businessHours.open + index}:00
-                    </span>
-                        </div>)}
-                </div>
-                <div className={styles.timeline__background_wrap}>
-                    {/* <div className={styles.timeline__background}>{fillSlogan()}</div>*/}
-                </div>
-                <div className={styles.timeline__add_wrap}>
-                    {createIntervalButtons()}
-                </div>
-            </div>
             <div className={styles.times_container}>
-                <h3>Available times for period</h3>
-                {selectedInterval &&
-                    <div>{timeToString(numberToTime(selectedInterval?.startTime))} - {timeToString(numberToTime(selectedInterval?.endTime))}</div>}
-                {selectedInterval !== null ?
-                    <div className={styles.times_wrap}>
-                        {getPosibleTimes(selectedInterval!)}
-                    </div> :
-                    <div style={{ marginTop: "3rem" }}>	&lt;-- Select Specific Period</div>}
+                <h3>Available times</h3>
+                <div className={styles.mobile__times_wrap}>
+                    {intervals.map(i => <div>
+                        <div>{timeToString(numberToTime(i.startTime))} - {timeToString(numberToTime(i.endTime))}</div>
+                        <div className={styles.times_wrap}>
+                            {getPosibleTimes(i)}
+                        </div>
+                    </div>)}
+                </div>
             </div>
         </div>);
 

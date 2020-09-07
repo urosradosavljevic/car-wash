@@ -1,8 +1,9 @@
 import React, { useRef } from 'react'
 import styles from '../styles/steps/Login.module.scss'
+import { StepsState } from '../constants/types/Steps';
 
 interface Props {
-    steps: any;
+    steps: StepsState;
     nextStep: () => void;
 }
 

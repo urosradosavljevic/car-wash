@@ -1,29 +1,20 @@
 import treatments from "./constants/treatments";
-import { Time } from "./constants/types/Time";
-import { ClientData } from "./constants/types/ClientData";
+import { Appointement } from "./constants/types/Appointement";
 
 export const businessHours = { open: 7, closed: 19 };
-interface Appointement {
-  client: ClientData;
-  treatment: {
-    duration: number;
-    price: number;
-  };
-  start: Time;
-}
 
 export const day: Array<Appointement> = [
-  {
-    client: {
-      name: "John",
-      phoneNumber: "+384",
-    },
-    treatment: treatments.car.inside,
-    start: {
-      hour: 7,
-      minutes: 0,
-    },
-  },
+  // {
+  //   client: {
+  //     name: "John",
+  //     phoneNumber: "+384",
+  //   },
+  //   treatment: treatments.car.inside,
+  //   start: {
+  //     hour: 7,
+  //     minutes: 0,
+  //   },
+  // },
   {
     client: {
       name: "Mike",
@@ -51,7 +42,7 @@ export const day: Array<Appointement> = [
       name: "Alister",
       phoneNumber: "+384",
     },
-    treatment: treatments.car.full,
+    treatment: treatments.car.inside,
     start: {
       hour: 15,
       minutes: 0,

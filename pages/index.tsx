@@ -11,19 +11,10 @@ import { Checkout } from '../components/Checkout';
 import Layout from '../components/Layout';
 import { ScheduleProgress } from '../components/ScheduleProgress';
 import { Login } from '../components/Login';
+import UIStore from '../stores/UIStore';
+import { TimelineMobile } from '../components/TimelineMobile';
+import { StepTypes, StepsState } from '../constants/types/Steps';
 
-interface IndexProps {
-  orderStore?: OrderStore;
-}
-
-type StepTypes = "login" | "date" | "treatment" | "timeline" | "checkout";
-interface StepsState {
-  login: boolean;
-  date: boolean;
-  treatment: boolean;
-  time: boolean;
-  currentStep: StepTypes;
-}
 
 type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
 
@@ -37,19 +28,26 @@ const initialStepMap: StepsState = {
   login: false,
   date: false,
   treatment: false,
-  time: false,
+  timeline: false,
+  checkout: false,
   currentStep: "login"
 }
 const memberInitialSteps: StepsState = {
   login: true,
   date: false,
   treatment: false,
-  time: false,
+  timeline: false,
+  checkout: false,
   currentStep: "date"
 }
 
-const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }) => {
-  const appointementStore = orderStore!
+interface IndexProps {
+  orderStore?: OrderStore;
+  uiStore?: UIStore;
+}
+
+const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
+  const ui = uiStore!
   // check cookies for user
   const initialState = false ? memberInitialSteps : initialStepMap
 
@@ -100,7 +98,8 @@ const Home: React.FC<IndexProps> = inject("orderStore")(observer(({ orderStore }
         </>);
       case "timeline":
         return <>
-          <Timeline />
+          {/* {ui.isMobile ? <TimelineMobile /> : <Timeline />} */}
+          <TimelineMobile />
           <div className={styles.step__nav}>
             {navButton("timeline", "treatment", true)}
             {navButton("timeline", "checkout")}</div>

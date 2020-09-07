@@ -2,9 +2,10 @@
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
+  /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
     grid-template-columns: none;
     grid-template-rows: auto 1fr;
+    padding-bottom: 4rem;
   }
 }
-/* Extra small devices (phones, 600px and down) */
