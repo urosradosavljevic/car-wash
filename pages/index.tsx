@@ -1,6 +1,5 @@
 import { useReducer } from 'react';
 import { inject, observer } from 'mobx-react'
-import { useRouter } from 'next/router';
 
 import OrderStore from '../stores/OrderStore'
 import styles from '../styles/pages/Home.module.scss'
@@ -52,7 +51,6 @@ const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
   const initialState = false ? memberInitialSteps : initialStepMap
 
   const [steps, dispatchStep] = useReducer(reducer, initialState);
-  const router = useRouter()
 
   const nextStep = (type: StepTypes, next: StepTypes) => {
     dispatchStep({ type });
@@ -65,7 +63,6 @@ const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
     if (success) {
       dispatchStep({ type: "reset" })
       alert("Don't be late");
-      router.push("/profile")
     }
   }
 
