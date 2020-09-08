@@ -26,27 +26,27 @@ export const ScheduleProgress: React.FC<Props> = ({ steps, currentStep }) => {
             <div className={styles.progress_list}>
                 <div role="button" data-name="Login" className={renderStyle("login")}>
                     <span>
-                        <FaUserAlt size="2rem" />
+                        <FaUserAlt size="1.7rem" />
                     </span>
                 </div>
                 <div role="button" data-name="Choose Date" className={renderStyle("date")}>
                     <span>
-                        <BiCalendarAlt size="2rem" />
+                        <BiCalendarAlt size="1.7rem" />
                     </span>
                 </div>
                 <div role="button" data-name="Choose Treatment" className={renderStyle("treatment")}>
                     <span>
-                        <FaHandHoldingHeart size="2rem" />
+                        <FaHandHoldingHeart size="1.7rem" />
                     </span>
                 </div>
                 <div role="button" data-name="Pick Time" className={renderStyle("timeline")}>
                     <span>
-                        <AiOutlineSchedule size="2rem" />
+                        <AiOutlineSchedule size="1.7rem" />
                     </span>
                 </div>
                 <div role="button" data-name="Finish" className={renderStyle("checkout")}>
                     <span>
-                        <GiFlyingFlag size="2rem" />
+                        <GiFlyingFlag size="1.7rem" />
                     </span>
                 </div>
             </div>

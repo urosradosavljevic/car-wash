@@ -42,8 +42,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     background-color: white;
   }
@@ -77,10 +77,10 @@
   .progress__list_item_current.progress__list_item::after {
     content: "";
     position: absolute;
-    top: -0.45rem;
-    left: -0.45rem;
-    width: 3.4rem;
-    height: 3.4rem;
+    top: -0.5rem;
+    left: -0.5rem;
+    width: 3rem;
+    height: 3rem;
 
     border: solid color(light) 0.5rem;
     border-radius: 50%;

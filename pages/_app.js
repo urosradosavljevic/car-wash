@@ -7,6 +7,7 @@ import { getInitialUIState } from "../stores/UIStore";
 import initializeStores from "../stores/stores";
 
 import "../styles/steps/custom_datepicker.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import "../styles/globals.css";
 
 class CustomApp extends App {
