@@ -1,18 +1,19 @@
 import { useReducer } from 'react';
 import { inject, observer } from 'mobx-react'
 
-import OrderStore from '../stores/OrderStore'
-import styles from '../styles/pages/Home.module.scss'
-import { TreatmentSelect } from '../components/TreatmentSelect';
-import { Timeline } from '../components/Timeline';
-import { DateSelect } from '../components/DateSelect';
-import { Checkout } from '../components/Checkout';
-import Layout from '../components/Layout';
-import { ScheduleProgress } from '../components/ScheduleProgress';
-import { Login } from '../components/Login';
-import UIStore from '../stores/UIStore';
-import { TimelineMobile } from '../components/TimelineMobile';
-import { StepTypes, StepsState } from '../constants/types/Steps';
+import { StepTypes, StepsState } from '../models/Steps';
+import OrderStore from '../shared/stores/OrderStore'
+import UIStore from '../shared/stores/UIStore';
+import styles from '../shared/styles/pages/Home.module.scss'
+
+import { ScheduleProgress } from '../components/schedule-progress/ScheduleProgress';
+import { TreatmentSelect } from '../view/screens/treatment/TreatmentSelect';
+import { Timeline } from '../view/screens/timeline/Timeline';
+import { DateSelect } from '../view/screens/date-select/DateSelect';
+import { Checkout } from '../view/screens/checkout/Checkout';
+import Layout from '../view/layout/Layout';
+import { Login } from '../view/screens/login/Login';
+import { TimelineMobile } from '../view/screens/timeline/TimelineMobile';
 
 
 type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
@@ -76,7 +77,6 @@ const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
   );
 
   const renderStep = () => {
-
     switch (steps.currentStep) {
       case "date":
         return (<>
@@ -113,7 +113,7 @@ const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
           </div>
         </>;
       default:
-        return <Login steps={steps} nextStep={() => nextStep("login", "date")} />;
+        return <Login nextStep={() => nextStep("login", "date")} />;
     }
   }
 

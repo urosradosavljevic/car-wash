@@ -1,0 +1,124 @@
+@import "../../shared/styles/colors.scss";
+@import "../../shared/styles/presets.scss";
+
+.container {
+  position: relative;
+  display: flex;
+  margin: auto;
+  background: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  @media only screen and (min-width: 600px) {
+    flex-direction: row;
+    background: color(light);
+  }
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+}
+
+.social {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: 1rem;
+  margin-right: 330px;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    margin-top: 1rem;
+    margin-right: 0;
+    order: 2;
+    background: color(light);
+  }
+
+  & > div {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    line-height: 0.9em;
+  }
+}
+
+.contact_form {
+  display: flex;
+  flex-direction: column;
+  background: color(bright);
+  height: auto;
+  padding: 2rem;
+  z-index: 2;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  @media only screen and (min-width: 600px) {
+    position: absolute;
+    left: 4.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @media only screen and (max-width: 600px) {
+    position: static;
+    transform: none;
+    margin: auto;
+    order: 1;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  p {
+    max-width: 30ch;
+  }
+
+  input,
+  textarea,
+  button {
+    width: 100%;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    height: 1.8rem;
+  }
+
+  textarea {
+    height: 5rem;
+  }
+
+  label {
+    font-weight: 500;
+  }
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.map {
+  @media only screen and (min-width: 600px) {
+    width: 300px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: auto;
+    margin: 0 1rem;
+  }
+
+  height: 300px;
+  order: 3;
+}
+
+.send_btn {
+  @include button();
+}

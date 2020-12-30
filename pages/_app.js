@@ -2,13 +2,13 @@ import App from "next/app";
 import React from "react";
 import { Provider } from "mobx-react";
 
-import { getInitialOrderState } from "../stores/OrderStore";
-import { getInitialUIState } from "../stores/UIStore";
-import initializeStores from "../stores/stores";
+import { getInitialOrderState } from "../shared/stores/OrderStore";
+import { getInitialUIState } from "../shared/stores/UIStore";
+import initializeStores from "../shared/stores/stores";
 
-import "../styles/steps/custom_datepicker.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import "../styles/globals.css";
+import "../shared/styles/custom_datepicker.css";
+import "../shared/styles/globals.css";
 
 class CustomApp extends App {
   state = {
