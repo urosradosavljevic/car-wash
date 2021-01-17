@@ -26,7 +26,8 @@
     "react-loader-spinner": "^3.1.14",
     "react-timeline-range-slider": "^1.1.0",
     "react-timeline-range-slider-with-disabled": "^1.0.6",
-    "sass": "^1.26.10"
+    "sass": "^1.26.10",
+    "victory": "^35.4.4"
   },
   "devDependencies": {
     "@types/node": "^14.6.2",

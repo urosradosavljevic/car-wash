@@ -1,0 +1,35 @@
+@import "../colors";
+@import "../presets";
+
+.container {
+  font-size: 1.1rem;
+  color: color(light);
+}
+.title {
+  text-align: center;
+
+  h1 {
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+}
+.charts {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  .week_chart {
+    margin: 0 auto;
+  }
+}
+.what_you_get {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 5rem;
+
+  ul {
+    padding-left: 1.5rem;
+  }
+  picture {
+    margin: auto;
+  }
+}

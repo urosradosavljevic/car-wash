@@ -48,7 +48,7 @@ interface IndexProps {
 
 const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
   const ui = uiStore!
-  // check cookies for user
+
   const initialState = false ? memberInitialSteps : initialStepMap
 
   const [steps, dispatchStep] = useReducer(reducer, initialState);
