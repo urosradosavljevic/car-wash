@@ -10,6 +10,7 @@ import initializeStores from "../shared/stores/stores";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import "../shared/styles/custom_datepicker.css";
 import "../shared/styles/globals.css";
+import { ProgressContextProvider } from "../shared/context/ProgressContext";
 
 class CustomApp extends App {
   state = {
@@ -43,7 +44,9 @@ class CustomApp extends App {
 
     return (
       <Provider {...this.state}>
-        <Component {...pageProps} />
+        <ProgressContextProvider>
+          <Component {...pageProps} />
+        </ProgressContextProvider>
       </Provider>
     );
   }

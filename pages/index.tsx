@@ -14,6 +14,7 @@ import { Checkout } from '../view/screens/checkout/Checkout';
 import Layout from '../view/layout/Layout';
 import { Login } from '../view/screens/login/Login';
 import { TimelineMobile } from '../view/screens/timeline/TimelineMobile';
+import ProgressStore from '../shared/stores/ProgressStore';
 
 
 type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
@@ -30,7 +31,6 @@ const initialStepMap: StepsState = {
   treatment: false,
   timeline: false,
   checkout: false,
-  currentStep: "login"
 }
 const memberInitialSteps: StepsState = {
   login: true,
@@ -38,15 +38,16 @@ const memberInitialSteps: StepsState = {
   treatment: false,
   timeline: false,
   checkout: false,
-  currentStep: "date"
 }
 
 interface IndexProps {
   orderStore?: OrderStore;
+  progressStore?: ProgressStore;
   uiStore?: UIStore;
 }
 
-const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
+const Home: React.FC<IndexProps> = inject("uiStore", "progressStore")(observer(({ uiStore, progressStore }) => {
+  const progress = progressStore!
   const ui = uiStore!
 
   const initialState = false ? memberInitialSteps : initialStepMap
