@@ -1,4 +1,4 @@
-export interface StepsState {
+export interface StepsProgress {
   login: boolean;
   date: boolean;
   treatment: boolean;

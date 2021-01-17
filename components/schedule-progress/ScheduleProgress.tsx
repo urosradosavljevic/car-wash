@@ -6,51 +6,54 @@ import { AiOutlineSchedule } from 'react-icons/ai/';
 import clsx from 'clsx';
 
 import styles from './ScheduleProgress.module.scss'
-import { StepsState, StepTypes } from '../../models/Steps';
+import { PROGRESS_STEP } from '../../shared/constants/progress';
+import { inject, observer } from 'mobx-react'
+import UIStore from '../../shared/stores/UIStore';
 
 interface Props {
-    steps: StepsState;
-    currentStep: string | undefined;
+    currentStep: PROGRESS_STEP;
+    uiStore?: UIStore;
 }
 
-export const ScheduleProgress: React.FC<Props> = ({ steps, currentStep }) => {
+export const ScheduleProgress: React.FC<Props> = inject("uiStore")(observer(({ currentStep, uiStore }) => {
+    const ui = uiStore!;
 
-    const renderStyle = (step: StepTypes) => clsx(
+    const renderStyle = (step: PROGRESS_STEP) => clsx(
         styles.progress__list_item,
-        steps[step] && styles.progress__list_item_done,
+        ui.progress[step] && styles.progress__list_item_done,
         currentStep === step && styles.progress__list_item_current
-    )
+    );
 
     return (
         <header className={styles.progress}>
             <div className={styles.progress_container}>
 
                 <div className={styles.progress_list}>
-                    <div data-name="Login" className={renderStyle("login")}>
+                    <div data-name="Login" className={renderStyle(PROGRESS_STEP.LOGIN)}>
                         <span>
                             <FaUserAlt size="1.7rem" />
                         </span>
                     </div>
 
-                    <div data-name="Choose Date" className={renderStyle("date")}>
+                    <div data-name="Choose Date" className={renderStyle(PROGRESS_STEP.DATE)}>
                         <span>
                             <BiCalendarAlt size="1.7rem" />
                         </span>
                     </div>
 
-                    <div data-name="Choose Treatment" className={renderStyle("treatment")}>
+                    <div data-name="Choose Treatment" className={renderStyle(PROGRESS_STEP.TREATMENT)}>
                         <span>
                             <FaHandHoldingHeart size="1.7rem" />
                         </span>
                     </div>
 
-                    <div data-name="Pick Time" className={renderStyle("timeline")}>
+                    <div data-name="Pick Time" className={renderStyle(PROGRESS_STEP.TIMELINE)}>
                         <span>
                             <AiOutlineSchedule size="1.7rem" />
                         </span>
                     </div>
 
-                    <div data-name="Finish" className={renderStyle("checkout")}>
+                    <div data-name="Finish" className={renderStyle(PROGRESS_STEP.CHECKOUT)}>
                         <span>
                             <GiFlyingFlag size="1.7rem" />
                         </span>
@@ -60,4 +63,4 @@ export const ScheduleProgress: React.FC<Props> = ({ steps, currentStep }) => {
             </div >
         </header >
     );
-}
+}));

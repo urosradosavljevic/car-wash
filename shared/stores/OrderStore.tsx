@@ -1,6 +1,5 @@
 import { observable, action } from "mobx"
 
-import { OrderStoreData } from "../../models/store/OrderStoreData";
 import { ClientData } from "../../models/ClientData";
 import { Time } from "../../models/Time";
 import { Treatment } from "../../models/Treatment";
@@ -56,7 +55,7 @@ class OrderStore {
         this.client = client
     }
 
-    hydrate(initialData: OrderStoreData) {
+    hydrate(initialData: typeof initial) {
         this.date = initialData.date;
         this.vehicle = initialData.vehicle;
         this.treatment = initialData.treatment;

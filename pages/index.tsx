@@ -1,12 +1,9 @@
-import { useReducer } from 'react';
 import { inject, observer } from 'mobx-react'
 
-import { StepTypes, StepsState } from '../models/Steps';
 import OrderStore from '../shared/stores/OrderStore'
 import UIStore from '../shared/stores/UIStore';
 import styles from '../shared/styles/pages/Home.module.scss'
 
-import { ScheduleProgress } from '../components/schedule-progress/ScheduleProgress';
 import { TreatmentSelect } from '../view/screens/treatment/TreatmentSelect';
 import { Timeline } from '../view/screens/timeline/Timeline';
 import { DateSelect } from '../view/screens/date-select/DateSelect';
@@ -14,99 +11,79 @@ import { Checkout } from '../view/screens/checkout/Checkout';
 import Layout from '../view/layout/Layout';
 import { Login } from '../view/screens/login/Login';
 import { TimelineMobile } from '../view/screens/timeline/TimelineMobile';
-import ProgressStore from '../shared/stores/ProgressStore';
-
-
-type StepsAction = { type: StepTypes | "reset" } | { type: "current"; payload: StepTypes; }
-
-function reducer(state: StepsState, action: StepsAction) {
-  if (action.type === "reset") return initialStepMap
-  if (action.type === "current") return { ...state, currentStep: action.payload }
-  return { ...state, [action.type]: true };
-}
-
-const initialStepMap: StepsState = {
-  login: false,
-  date: false,
-  treatment: false,
-  timeline: false,
-  checkout: false,
-}
-const memberInitialSteps: StepsState = {
-  login: true,
-  date: false,
-  treatment: false,
-  timeline: false,
-  checkout: false,
-}
+import { useProgressContext } from '../shared/context/ProgressContext';
+import { PROGRESS_STEP } from '../shared/constants/progress';
+import { ScheduleProgress } from '../components/schedule-progress/ScheduleProgress';
 
 interface IndexProps {
   orderStore?: OrderStore;
-  progressStore?: ProgressStore;
   uiStore?: UIStore;
 }
 
-const Home: React.FC<IndexProps> = inject("uiStore", "progressStore")(observer(({ uiStore, progressStore }) => {
-  const progress = progressStore!
+const Home: React.FC<IndexProps> = inject("uiStore")(observer(({ uiStore }) => {
+
+  const { current, nextStep, previousStep } = useProgressContext();
   const ui = uiStore!
 
-  const initialState = false ? memberInitialSteps : initialStepMap
-
-  const [steps, dispatchStep] = useReducer(reducer, initialState);
-
-  const nextStep = (type: StepTypes, next: StepTypes) => {
-    dispatchStep({ type });
-    dispatchStep({ type: "current", payload: next });
+  const stepFoward = () => {
+    ui.submitProgressBar(current);
+    nextStep();
   }
 
   const submitTreatment = () => {
     let success = true;
 
     if (success) {
-      dispatchStep({ type: "reset" })
+      ui.resetProgressBar();
       alert("Don't be late");
     }
   }
 
-  const navButton = (type: StepTypes, next: StepTypes, back: boolean = false) => (
-    <button
-      className={styles.step__nav_btn}
-      onClick={() => nextStep(type, next)}
-    >
-      {!back ? "Continue" : "Go Back"}
-    </button>
+  const NavButton = ({ back = false }) => (
+    back ?
+      <button
+        className={styles.step__nav_btn}
+        onClick={previousStep}
+      >Go Back</button> :
+      <button
+        className={styles.step__nav_btn}
+        onClick={stepFoward}
+      >Continue</button>
   );
 
   const renderStep = () => {
-    switch (steps.currentStep) {
-      case "date":
+    switch (current) {
+      case PROGRESS_STEP.LOGIN:
+        return <Login nextStep={() => stepFoward()} />;
+      case PROGRESS_STEP.DATE:
         return (<>
           <DateSelect />
           <div className={styles.step__nav}>
-            {navButton("date", "treatment")}
+            <NavButton back={true} />
+            <NavButton />
           </div>
         </>);
-      case "treatment":
+      case PROGRESS_STEP.TREATMENT:
         return (<>
           <TreatmentSelect />
           <div className={styles.step__nav}>
-            {navButton("treatment", "date", true)}
-            {navButton("treatment", "timeline")}
+            <NavButton back={true} />
+            <NavButton />
           </div>
         </>);
-      case "timeline":
+      case PROGRESS_STEP.TIMELINE:
         return <>
           {ui.isMobile ? <TimelineMobile /> : <Timeline />}
-          {/* <TimelineMobile /> */}
           <div className={styles.step__nav}>
-            {navButton("timeline", "treatment", true)}
-            {navButton("timeline", "checkout")}</div>
+            <NavButton back={true} />
+            <NavButton />
+          </div>
         </>;
-      case "checkout":
+      case PROGRESS_STEP.CHECKOUT:
         return <>
           <Checkout />
           <div className={styles.step__nav}>
-            {navButton("timeline", "treatment", true)}
+            <NavButton back={true} />
             <button
               className={styles.step__nav_btn}
               onClick={() => submitTreatment()}
@@ -114,14 +91,14 @@ const Home: React.FC<IndexProps> = inject("uiStore", "progressStore")(observer((
           </div>
         </>;
       default:
-        return <Login nextStep={() => nextStep("login", "date")} />;
+        return <div>error</div >;
     }
   }
 
   return (
     <Layout title="Schedule appointement">
       <div className={styles.container}>
-        <ScheduleProgress steps={steps} currentStep={steps.currentStep} />
+        <ScheduleProgress currentStep={current} />
         <main className={styles.main}>
           {renderStep()}
         </main >

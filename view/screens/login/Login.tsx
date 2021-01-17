@@ -24,7 +24,8 @@ export const Login: React.FC<Props> = ({ nextStep }) => {
         };
     }, []);
 
-    const tryLogin = () => {
+    const tryLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
         if (!loading) {
             setLoading(true);
             timer.current = setTimeout(() => {
@@ -43,6 +44,6 @@ export const Login: React.FC<Props> = ({ nextStep }) => {
             <label htmlFor="pass">Password</label>
             <input id="pass" type="password" />
         </div>
-        <button type="submit" className={styles.login_btn} onClick={() => tryLogin()}>{loading ? <Loader /> : "Login"}</button>
+        <button type="submit" className={styles.login_btn} onClick={tryLogin}>{loading ? <Loader /> : "Login"}</button>
     </div>);
 }

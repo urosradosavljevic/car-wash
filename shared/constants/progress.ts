@@ -1,5 +1,5 @@
 export enum PROGRESS_STEP {
-    LOGIN = "login", DATE = "date", TREATMENT = "date", TIMELINE = "timeline", CHECKOUT = "checkout"
+    LOGIN = "login", DATE = "date", TREATMENT = "treatment", TIMELINE = "timeline", CHECKOUT = "checkout"
 }
 
 export enum PROGRESS_TYPE {
