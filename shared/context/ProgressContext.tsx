@@ -24,19 +24,18 @@ export const useProgressReducer = () => {
         switch (current) {
             case PROGRESS_STEP.LOGIN:
                 setCurrent(PROGRESS_STEP.DATE);
-                console.log("date is next")
                 break;
             case PROGRESS_STEP.DATE:
                 setCurrent(PROGRESS_STEP.TREATMENT);
-                console.log("treatment is next")
                 break;
             case PROGRESS_STEP.TREATMENT:
                 setCurrent(PROGRESS_STEP.TIMELINE);
-                console.log("timeline is next")
                 break;
             case PROGRESS_STEP.TIMELINE:
                 setCurrent(PROGRESS_STEP.CHECKOUT);
-                console.log("checkout is next")
+                break;
+            case PROGRESS_STEP.CHECKOUT:
+                setCurrent(PROGRESS_STEP.LOGIN);
                 break;
             default:
                 setCurrent(PROGRESS_STEP.LOGIN);

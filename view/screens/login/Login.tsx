@@ -1,10 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
 import Load from 'react-loader-spinner'
-import styles from './Login.module.scss'
 
-interface Props {
-    nextStep: () => void;
-}
+import { useProgressContext } from '../../../shared/context/ProgressContext'
+import styles from './Login.module.scss'
 
 const Loader = () => <Load
     type="Oval"
@@ -14,7 +12,8 @@ const Loader = () => <Load
     timeout={1000}
 />
 
-export const Login: React.FC<Props> = ({ nextStep }) => {
+export const Login: React.FC = () => {
+    const { nextStep } = useProgressContext();
     const timer = useRef<NodeJS.Timeout>();
     const [loading, setLoading] = useState(false)
 

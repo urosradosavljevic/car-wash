@@ -1,0 +1,15 @@
+@import "../../shared/styles/colors.scss";
+@import "../../shared/styles/presets.scss";
+
+.step__nav {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  width: 100%;
+}
+.step__nav_btn {
+  @include button();
+}
+.step__nav_btn:last-of-type {
+  margin-left: auto;
+}

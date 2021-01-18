@@ -26,18 +26,6 @@
   min-height: 200px;
   max-width: 900px;
 }
-.step__nav {
-  display: flex;
-  flex-direction: row;
-  margin-top: 1rem;
-  width: 100%;
-}
-.step__nav_btn {
-  @include button();
-}
-.step__nav_btn:last-of-type {
-  margin-left: auto;
-}
 
 .footer {
   width: 100%;
