@@ -10,18 +10,10 @@ const initialStepMap = {
     checkout: false,
 }
 
-const memberInitialSteps = {
-    login: true,
-    date: false,
-    treatment: false,
-    timeline: false,
-    checkout: false,
-}
-
 const initial = {
     isNavOpen: false,
     isMobile: false,
-    progress: memberInitialSteps,
+    progress: initialStepMap,
 }
 class UIStore {
 
