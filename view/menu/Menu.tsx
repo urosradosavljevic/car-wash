@@ -1,26 +1,23 @@
 import React from 'react'
+import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
-import { inject, observer } from 'mobx-react';
 
 import styles from './Menu.module.scss';
-import UIStore from '../../shared/stores/UIStore';
 import { Navigation } from '../nav/Navigation';
 import { MenuToggle } from '../nav/MenuToggle';
 import { NavLogo } from '../nav/Logo';
+import { useUIStore } from '../../shared/providers/RootStoreProvider';
 
-interface Props {
-    uiStore?: UIStore;
-}
+export const Menu: React.FC = observer(() => {
+    const uiStore = useUIStore();
 
-export const Menu: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) => {
-    const ui = uiStore!;
     return (
         <nav
-            className={clsx(styles.nav, ui.isNavOpen ? styles.nav_open : styles.nav_closed)}
+            className={clsx(styles.nav, uiStore.isNavOpen ? styles.nav_open : styles.nav_closed)}
         >
             <Navigation />
             <MenuToggle />
             <NavLogo />
         </nav>
     );
-}))
+})

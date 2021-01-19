@@ -1,27 +1,20 @@
 import React, { useState } from 'react'
-import { inject } from 'mobx-react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite';
 import clsx from 'clsx'
 
 import { numberToTime, compareTimes, appointementToHours, timeToString } from '../../../shared/util/helpers'
 import { businessHours, day as selectedDay } from "../../../shared/data/days"
-import OrderStore from '../../../shared/stores/OrderStore'
 import { timelineHeight } from '../../../shared/style'
 import treatments from '../../../shared/data/treatments'
 
 import styles from './Timeline.module.scss'
-import UIStore from '../../../shared/stores/UIStore'
 import { Appointement } from '../../../models/Appointement'
 import { Interval } from '../../../models/Inteval'
+import { useScheduleStore } from '../../../shared/providers/RootStoreProvider'
 
-interface Props {
-    orderStore?: OrderStore;
-    uiStore?: UIStore;
-}
+export const Timeline: React.FC = observer(() => {
 
-export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
-
-    const { vehicle, treatment, startTime: appStartTime, setStartTime } = orderStore!
+    const { vehicle, treatment, startTime: appStartTime, setStartTime } = useScheduleStore();
 
     // calculate pixels per hour based on timeline height
     const pixelsPerHour = Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
@@ -193,4 +186,4 @@ export const Timeline: React.FC<Props> = inject("orderStore")(observer(({ orderS
         </div>);
 
 
-}))
+})

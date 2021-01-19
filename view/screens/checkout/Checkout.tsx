@@ -1,17 +1,16 @@
 import React from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite';
+
 import { FaUserAlt } from 'react-icons/fa/';
-import OrderStore from '../../../shared/stores/OrderStore';
 import styles from './Checkout.module.scss';
+
+import { useScheduleStore } from "../../../shared/providers/RootStoreProvider"
 import { timeToString } from '../../../shared/util/helpers';
 import treatments from '../../../shared/data/treatments';
 
-interface Props {
-    orderStore?: OrderStore;
-}
+export const Checkout: React.FC = observer(() => {
+    const { client, date, startTime, vehicle, treatment } = useScheduleStore();
 
-export const Checkout: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
-    const { client, date, startTime, vehicle, treatment } = orderStore!
     const process = treatments[vehicle][treatment].process;
 
     return (<div className={styles.checkout__wrapp}>
@@ -53,4 +52,4 @@ export const Checkout: React.FC<Props> = inject("orderStore")(observer(({ orderS
             </div>
         </div>
     </div>);
-}))
+})

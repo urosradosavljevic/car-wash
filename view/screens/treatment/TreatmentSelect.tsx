@@ -1,5 +1,5 @@
 import React from 'react'
-import { inject, observer } from 'mobx-react';
+import { observer } from "mobx-react-lite"
 import clsx from 'clsx';
 import { FaShower, FaCarAlt, FaShuttleVan, FaTruck, FaMoneyBillWave, FaRegClock } from 'react-icons/fa/';
 import { GiVacuumCleaner } from 'react-icons/gi/';
@@ -7,17 +7,13 @@ import { WiStars } from 'react-icons/wi/';
 import { BiCalendarAlt } from 'react-icons/bi/';
 
 import treatments from '../../../shared/data/treatments';
-import OrderStore from '../../../shared/stores/OrderStore';
 import styles from './Treatment.module.scss'
 import { Treatment } from '../../../models/Treatment';
 import { Vehicle } from '../../../models/Vehicle';
+import { useScheduleStore } from '../../../shared/providers/RootStoreProvider';
 
-interface Props {
-    orderStore?: OrderStore;
-}
-
-export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
-    const { vehicle, treatment, date, setVehicle, setTreatment } = orderStore!
+export const TreatmentSelect: React.FC = observer(() => {
+    const { vehicle, treatment, date, setVehicle, setTreatment } = useScheduleStore()
     const selectedTreatment = treatments[vehicle][treatment]
 
     const isTreatmentSelected = (treat: Treatment) => treat === treatment && styles.option__btn_selected
@@ -108,4 +104,4 @@ export const TreatmentSelect: React.FC<Props> = inject("orderStore")(observer(({
             </div>
         </div>
     );
-}))
+})

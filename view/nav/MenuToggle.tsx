@@ -1,20 +1,16 @@
 import React from "react";
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { GrMenu, GrClose } from "react-icons/gr";
 
 import styles from "./Navigation.module.scss"
-import UIStore from "../../shared/stores/UIStore";
+import { useUIStore } from "../../shared/providers/RootStoreProvider";
 
-interface Props {
-    uiStore?: UIStore;
-}
-
-export const MenuToggle: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) => {
-    const ui = uiStore!;
+export const MenuToggle: React.FC = observer(() => {
+    const uiStore = useUIStore();
 
     return (
-        <button className={styles.toogleButton_wrap} onClick={() => ui.toggleNav()}>
-            <div className={styles.toogleButton}>{ui.isNavOpen ? <GrClose fontSize="2rem" /> : <GrMenu fontSize="2rem" />}</div>
+        <button className={styles.toogleButton_wrap} onClick={() => uiStore.toggleNav()}>
+            <div className={styles.toogleButton}>{uiStore.isNavOpen ? <GrClose fontSize="2rem" /> : <GrMenu fontSize="2rem" />}</div>
         </button>
     );
-}))
+})

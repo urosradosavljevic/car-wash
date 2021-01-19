@@ -1,25 +1,25 @@
+import { observer } from 'mobx-react-lite';
 import React, { ReactNode, useEffect } from 'react'
 import Head from 'next/head'
-import { inject, observer } from 'mobx-react';
 
 import styles from "./Layout.module.scss"
 import { Menu } from '../menu/Menu'
 import { MobileMenu } from '../menu/MobileMenu'
-import UIStore from '../../shared/stores/UIStore';
+import { useUIStore } from '../../shared/providers/RootStoreProvider';
 
 type Props = {
     children?: ReactNode
     title?: string
-    uiStore?: UIStore;
 }
 
-export const Layout: React.FC<Props> = inject("uiStore")(observer(({ children, title, uiStore }) => {
-    const ui = uiStore!;
+export const Layout: React.FC<Props> = observer(({ children, title }) => {
+    const uiStore = useUIStore();
+
     useEffect(() => {
-        window.innerWidth < 600 ? ui.setIsMobile(true) : ui.setIsMobile(false);
+        window.innerWidth < 600 ? uiStore.setIsMobile(true) : uiStore.setIsMobile(false);
         window.addEventListener('resize', () => {
-            window.innerWidth < 600 ? ui.setIsMobile(true) : ui.setIsMobile(false);
-            console.log("mobil", ui.isMobile)
+            window.innerWidth < 600 ? uiStore.setIsMobile(true) : uiStore.setIsMobile(false);
+            console.log("mobil", uiStore.isMobile)
         })
     });
 
@@ -31,7 +31,7 @@ export const Layout: React.FC<Props> = inject("uiStore")(observer(({ children, t
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className={styles.body}>
-                {!ui.isMobile ? <Menu /> : <MobileMenu />}
+                {!uiStore.isMobile ? <Menu /> : <MobileMenu />}
                 {children}
             </div>
             {/* <footer >
@@ -41,5 +41,4 @@ export const Layout: React.FC<Props> = inject("uiStore")(observer(({ children, t
         </>
 
     )
-}))
-export default Layout
+})

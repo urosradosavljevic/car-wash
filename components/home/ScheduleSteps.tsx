@@ -1,9 +1,7 @@
-import React from 'react'
-import { inject } from 'mobx-react';
+import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { PROGRESS_STEP } from '../../shared/constants/progress'
-import UIStore from '../../shared/stores/UIStore';
 
 import { Checkout } from '../../view/screens/checkout/Checkout';
 import { DateSelect } from '../../view/screens/date-select/DateSelect';
@@ -12,14 +10,14 @@ import { Timeline } from '../../view/screens/timeline/Timeline';
 import { TimelineMobile } from '../../view/screens/timeline/TimelineMobile';
 import { TreatmentSelect } from '../../view/screens/treatment/TreatmentSelect';
 import { ScheduleStep } from './ScheduleStepNav';
+import { useUIStore } from '../../shared/providers/RootStoreProvider';
 
 interface Props {
   currentStep: PROGRESS_STEP;
-  uiStore?: UIStore;
 }
 
-export const ScheduleSteps: React.FC<Props> = inject("uiStore")(observer(({ currentStep, uiStore }) => {
-  const ui = uiStore!;
+export const ScheduleSteps: FC<Props> = observer(({ currentStep }) => {
+  const uiStore = useUIStore();
 
   return (
     <>
@@ -40,7 +38,7 @@ export const ScheduleSteps: React.FC<Props> = inject("uiStore")(observer(({ curr
         backButton={true}
         label={PROGRESS_STEP.TIMELINE}
       >
-        {ui.isMobile ? <TimelineMobile /> : <Timeline />}
+        {uiStore.isMobile ? <TimelineMobile /> : <Timeline />}
       </ScheduleStep>
       <ScheduleStep
         backButton={true}
@@ -49,4 +47,4 @@ export const ScheduleSteps: React.FC<Props> = inject("uiStore")(observer(({ curr
         <Checkout />
       </ScheduleStep>
     </>);
-}))
+})

@@ -1,6 +1,6 @@
 import { ProgressStepStore, ProgressStepStoreHydration } from "./ProgressStepStore";
 import { ScheduleStore, ScheduleStoreHydration } from "./ScheduleStore";
-import { UIStore, UIStoreHydration } from "./UIStoreMobX6";
+import { UIStore, UIStoreHydration } from "./UIStore";
 
 export type RootStoreHydration = {
     scheduleStore?: ScheduleStoreHydration;

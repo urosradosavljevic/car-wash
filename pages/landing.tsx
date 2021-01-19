@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiFillAlert } from 'react-icons/ai';
 
-import Layout from '../view/layout/Layout'
+import { Layout } from '../view/layout/Layout'
 import styles from '../shared/styles/pages/Landing.module.scss'
 import { WeekChart } from '../components/charts/WeekChart';
 import { NextAvailableChart } from '../components/charts/NextAvailableChart';

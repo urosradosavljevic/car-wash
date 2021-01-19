@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react'
 import Load from 'react-loader-spinner'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import { useProgressContext } from '../../../shared/context/ProgressContext'
 import styles from './Login.module.scss'
-import UIStore from '../../../shared/stores/UIStore'
 import { PROGRESS_STEP } from '../../../shared/constants/progress'
+import { useUIStore } from '../../../shared/providers/RootStoreProvider'
 
 const Loader = () => <Load
     type="Oval"
@@ -14,12 +14,11 @@ const Loader = () => <Load
     width={18}
     timeout={1000}
 />
-interface Props {
-    uiStore?: UIStore;
-}
-export const Login: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) => {
-    const ui = uiStore!
+
+export const Login: React.FC = observer(() => {
+    const uiStore = useUIStore();
     const { nextStep } = useProgressContext();
+
     const timer = useRef<NodeJS.Timeout>();
     const [loading, setLoading] = useState(false)
 
@@ -36,7 +35,7 @@ export const Login: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) =
             timer.current = setTimeout(() => {
                 setLoading(false);
                 nextStep();
-                ui.submitProgressBar(PROGRESS_STEP.LOGIN);
+                uiStore.submitProgressBar(PROGRESS_STEP.LOGIN);
             }, 500);
         }
     }
@@ -52,4 +51,4 @@ export const Login: React.FC<Props> = inject("uiStore")(observer(({ uiStore }) =
         </div>
         <button type="submit" className={styles.login_btn} onClick={tryLogin}>{loading ? <Loader /> : "Login"}</button>
     </div>);
-}))
+})

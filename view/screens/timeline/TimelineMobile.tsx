@@ -1,29 +1,21 @@
 import React from 'react'
-import { inject } from 'mobx-react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite';
 import clsx from 'clsx'
 
 import { numberToTime, compareTimes, appointementToHours, timeToString } from '../../../shared/util/helpers'
 import { businessHours, day as selectedDay } from "../../../shared/data/days"
-import OrderStore from '../../../shared/stores/OrderStore'
 import { Time } from '../../../models/Time'
 import treatments from '../../../shared/data/treatments'
 
 import styles from './Timeline.module.scss'
-import UIStore from '../../../shared/stores/UIStore'
 import { Appointement } from '../../../models/Appointement'
 import { Interval } from '../../../models/Inteval'
+import { useScheduleStore } from '../../../shared/providers/RootStoreProvider'
 
-interface Props {
-    orderStore?: OrderStore;
-    uiStore?: UIStore;
-}
+export const TimelineMobile: React.FC = observer(() => {
+    const { vehicle, treatment, setStartTime } = useScheduleStore();
 
-
-export const TimelineMobile: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
-    const appointementStore = orderStore!
-
-    const selectedTreatmentDuration = (treatments[appointementStore.vehicle][appointementStore.treatment].duration / 60);
+    const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
 
 
     // const fillSlogan = () => [...Array(30)].map((_, index) => (
@@ -31,7 +23,7 @@ export const TimelineMobile: React.FC<Props> = inject("orderStore")(observer(({ 
     // ))
 
     const selectStartTime = (startTime: Time) =>
-        appointementStore.setStartTime(startTime);
+        setStartTime(startTime);
 
     // Insert appointement 
     // const buttonClicked = (startTime: number, endTime: number) => {
@@ -40,8 +32,8 @@ export const TimelineMobile: React.FC<Props> = inject("orderStore")(observer(({ 
     //     let startM = Math.ceil((startTime - startH) * 60)
 
     //     // TODO: Check if treatment can fit  
-    //     if (appointementStore.treatment !== null) {
-    //         const temp = { treatment: appointementStore.treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
+    //     if (treatment !== null) {
+    //         const temp = { treatment: treatment, start: { hour: startH, minutes: startM > 60 ? 0 : startM } }
     //         console.log("new appointement", temp);
     //         const newTreatments = [...todayOccupied, temp]
     //         console.log("newTreatments", newTreatments);
@@ -70,7 +62,7 @@ export const TimelineMobile: React.FC<Props> = inject("orderStore")(observer(({ 
             times.push(
                 <div role="button"
                     onClick={() => selectStartTime(startTime)}
-                    className={clsx(styles.time__btn, compareTimes(appointementStore.startTime!, startTime) && styles.time_selected)}
+                    className={clsx(styles.time__btn, compareTimes(startTime!, startTime) && styles.time_selected)}
                 >
                     <span>
                         {startTime.hour}:{startTime.minutes === 0 ? "00" : startTime.minutes}
@@ -154,4 +146,4 @@ export const TimelineMobile: React.FC<Props> = inject("orderStore")(observer(({ 
         </div>);
 
 
-}))
+})

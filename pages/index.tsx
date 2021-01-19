@@ -2,7 +2,7 @@ import OrderStore from '../shared/stores/OrderStore'
 import UIStore from '../shared/stores/UIStore';
 import styles from '../shared/styles/pages/Home.module.scss'
 
-import Layout from '../view/layout/Layout';
+import { Layout } from '../view/layout/Layout';
 import { useProgressContext } from '../shared/context/ProgressContext';
 import { ScheduleProgress } from '../components/schedule-progress/ScheduleProgress';
 import { ScheduleSteps } from '../components/home/ScheduleSteps';

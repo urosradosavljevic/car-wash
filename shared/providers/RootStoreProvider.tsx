@@ -28,6 +28,11 @@ export function useProgressStepStore() {
     return progressStepStore;
 }
 
+export function useScheduleStore() {
+    const { scheduleStore } = useRootStore();
+    return scheduleStore;
+}
+
 type RootStoreProviderType = {
     children: ReactNode;
     hydrationData?: RootStoreHydration;

@@ -44,6 +44,7 @@ export class UIStore {
             ...this.progress,
             [step]: true
         }
+        console.log("step", step)
     }
 
     resetProgressBar = () => {

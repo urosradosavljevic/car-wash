@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { observer } from "mobx-react-lite"
 import DatePicker from "react-datepicker"
-import { inject, observer } from 'mobx-react';
 
 import styles from './DateSelect.module.scss'
-import OrderStore from '../../../shared/stores/OrderStore'
-import UIStore from '../../../shared/stores/UIStore';
+import { useScheduleStore, useUIStore } from '../../../shared/providers/RootStoreProvider';
 
-interface Props {
-    orderStore?: OrderStore;
-    uiStore?: UIStore;
-}
 
-export const DateSelect: React.FC<Props> = inject("orderStore", "uiStore")(observer(({ orderStore, uiStore }) => {
-    const { date, setDate } = orderStore!;
-    const ui = uiStore!;
+export const DateSelect: React.FC = observer(() => {
+
+    const uiStore = useUIStore()
+    const { date, setDate } = useScheduleStore();
+
     const [today] = useState(new Date());
 
     useEffect(() => {
@@ -21,17 +18,21 @@ export const DateSelect: React.FC<Props> = inject("orderStore", "uiStore")(obser
         setDate(today)
     }, [])
 
+    useEffect(() => {
+        console.log(date)
+    }, [date])
+
     return (
         <div className={styles.datepickerWrap}>
             <DatePicker
                 disabledKeyboardNavigation
                 selected={new Date(date)}
                 onChange={setDate}
-                monthsShown={ui.isMobile ? 1 : 2}
+                monthsShown={uiStore.isMobile ? 1 : 2}
                 minDate={new Date()}
                 maxDate={new Date(today.getFullYear(), today.getMonth() + 2, 0)}
                 inline
             />
         </div>
     );
-}))
+})

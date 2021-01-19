@@ -19,8 +19,8 @@ export class ScheduleStore {
     root: RootStore;
 
     date: Date = new Date();
-    vehicle: Vehicle | undefined;
-    treatment: Treatment | undefined;
+    vehicle: Vehicle = Vehicle.car;
+    treatment: Treatment = Treatment.outside;
     startTime: Time | undefined;
     client: ClientData | undefined;
 
@@ -42,6 +42,7 @@ export class ScheduleStore {
     }
 
     setDate = (date: Date) => {
+        console.log("date", date)
         this.date = date
     }
 

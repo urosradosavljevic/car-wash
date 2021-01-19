@@ -1,4 +1,6 @@
 import React from 'react'
+import { observer } from 'mobx-react-lite';
+
 import { BiCalendarAlt } from 'react-icons/bi/';
 import { FaHandHoldingHeart, FaUserAlt } from 'react-icons/fa/';
 import { GiFlyingFlag } from 'react-icons/gi/';
@@ -7,20 +9,18 @@ import clsx from 'clsx';
 
 import styles from './ScheduleProgress.module.scss'
 import { PROGRESS_STEP } from '../../shared/constants/progress';
-import { inject, observer } from 'mobx-react'
-import UIStore from '../../shared/stores/UIStore';
+import { useUIStore } from '../../shared/providers/RootStoreProvider';
 
 interface Props {
     currentStep: PROGRESS_STEP;
-    uiStore?: UIStore;
 }
 
-export const ScheduleProgress: React.FC<Props> = inject("uiStore")(observer(({ currentStep, uiStore }) => {
-    const ui = uiStore!;
+export const ScheduleProgress: React.FC<Props> = observer(({ currentStep }) => {
+    const uiStore = useUIStore();
 
     const renderStyle = (step: PROGRESS_STEP) => clsx(
         styles.progress__list_item,
-        ui.progress[step] && styles.progress__list_item_done,
+        uiStore.progress[step] && styles.progress__list_item_done,
         currentStep === step && styles.progress__list_item_current
     );
 
@@ -63,4 +63,4 @@ export const ScheduleProgress: React.FC<Props> = inject("uiStore")(observer(({ c
             </div >
         </header >
     );
-}));
+})

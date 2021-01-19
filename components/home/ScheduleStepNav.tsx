@@ -1,25 +1,24 @@
 import React, { FC } from 'react'
-import { inject, observer } from 'mobx-react'
 import styles from './ScheduleStep.module.scss'
 
 import { PROGRESS_STEP } from '../../shared/constants/progress'
 import { useProgressContext } from '../../shared/context/ProgressContext';
-import UIStore from '../../shared/stores/UIStore';
+import { useUIStore } from '../../shared/providers/RootStoreProvider';
+import { observer } from 'mobx-react-lite';
 
 interface NavProps {
     onNextStep?: () => void;
     backButton?: boolean
-    uiStore?: UIStore;
 }
 
-const NavButton: FC<NavProps> = inject("uiStore")(observer(({ uiStore, onNextStep, backButton = false, ...props }) => {
-    const ui = uiStore!
+const NavButton: FC<NavProps> = observer(({ onNextStep, backButton = false, ...props }) => {
+    const uiStore = useUIStore();
 
     const { current, nextStep, previousStep } = useProgressContext();
 
     const stepForward = () => {
         current === PROGRESS_STEP.CHECKOUT && submitTreatment();
-        ui.submitProgressBar(current);
+        uiStore.submitProgressBar(current);
         nextStep();
     }
 
@@ -27,7 +26,7 @@ const NavButton: FC<NavProps> = inject("uiStore")(observer(({ uiStore, onNextSte
         let success = true; // submit treatment to api
 
         if (success) {
-            ui.resetProgressBar();
+            uiStore.resetProgressBar();
             alert("Don't be late");
         }
     }
@@ -41,7 +40,7 @@ const NavButton: FC<NavProps> = inject("uiStore")(observer(({ uiStore, onNextSte
             onClick={onClick}
         >{backButton ? "Go back" : "Continue"}</button>
     )
-}));
+});
 
 
 interface StepProps {
