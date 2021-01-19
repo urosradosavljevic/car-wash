@@ -19,7 +19,6 @@ export const Layout: React.FC<Props> = observer(({ children, title }) => {
         window.innerWidth < 600 ? uiStore.setIsMobile(true) : uiStore.setIsMobile(false);
         window.addEventListener('resize', () => {
             window.innerWidth < 600 ? uiStore.setIsMobile(true) : uiStore.setIsMobile(false);
-            console.log("mobil", uiStore.isMobile)
         })
     });
 

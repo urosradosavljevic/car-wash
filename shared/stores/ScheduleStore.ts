@@ -42,7 +42,6 @@ export class ScheduleStore {
     }
 
     setDate = (date: Date) => {
-        console.log("date", date)
         this.date = date
     }
 

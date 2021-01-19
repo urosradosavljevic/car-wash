@@ -40,7 +40,6 @@ export const useProgressReducer = () => {
             default:
                 setCurrent(PROGRESS_STEP.LOGIN);
         }
-        console.log("current:", current)
     }
 
     const previousStep = () => {

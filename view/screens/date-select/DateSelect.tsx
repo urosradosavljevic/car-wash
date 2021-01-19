@@ -18,10 +18,6 @@ export const DateSelect: React.FC = observer(() => {
         setDate(today)
     }, [])
 
-    useEffect(() => {
-        console.log(date)
-    }, [date])
-
     return (
         <div className={styles.datepickerWrap}>
             <DatePicker
