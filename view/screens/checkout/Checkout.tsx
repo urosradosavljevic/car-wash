@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Checkout: React.FC<Props> = inject("orderStore")(observer(({ orderStore }) => {
-    const {client, date, startTime, vehicle, treatment} = orderStore!
+    const { client, date, startTime, vehicle, treatment } = orderStore!
     const process = treatments[vehicle][treatment].process;
 
     return (<div className={styles.checkout__wrapp}>
