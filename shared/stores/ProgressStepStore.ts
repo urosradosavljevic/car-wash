@@ -3,7 +3,7 @@ import { observable, action, makeObservable } from "mobx"
 import { PROGRESS_STEP } from "../constants/progress";
 import { RootStore } from "./RootStore";
 
-export type ProgressStepHydration = {
+export type ProgressStepStoreHydration = {
     current: PROGRESS_STEP;
 }
 export class ProgressStepStore {
@@ -63,7 +63,7 @@ export class ProgressStepStore {
         }
     }
 
-    hydrate(data?: ProgressStepHydration) {
+    hydrate(data?: ProgressStepStoreHydration) {
         if (data) {
             this.current = data.current;
         }
