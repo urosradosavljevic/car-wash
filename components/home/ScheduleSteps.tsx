@@ -8,7 +8,7 @@ import { DateSelect } from '../../view/screens/date-select/DateSelect';
 import { Login } from '../../view/screens/login/Login'
 import { Timeline } from '../../view/screens/timeline/Timeline';
 import { TimelineMobile } from '../../view/screens/timeline/TimelineMobile';
-import { TreatmentSelect } from '../../view/screens/treatment/TreatmentSelect';
+import { TreatmentSelect } from '../../view/screens/treatment/Treatments';
 import { ScheduleStep } from './ScheduleStepNav';
 import { useUIStore } from '../../shared/providers/RootStoreProvider';
 
