@@ -49,6 +49,7 @@ export const TimelineIntervals: React.FC<Props> = ({
 
         return (
             <div
+                key={`interval-btn-${index}`}
                 role="button"
                 data-index={index}
                 onClick={() => intervalBtnClicked(startTime, endTime, index)}

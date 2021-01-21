@@ -38,6 +38,7 @@ export const TimelineTimes: React.FC<Props> = observer(({ selectedInterval }) =>
 
             posibleTimes.push(
                 <div
+                    key={`timeline-time-${i}`}
                     role="button"
                     onClick={() => setStartTime(startTime)}
                     className={btnClassNames}
