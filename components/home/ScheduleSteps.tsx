@@ -38,7 +38,7 @@ export const ScheduleSteps: FC<Props> = observer(({ currentStep }) => {
         backButton={true}
         label={PROGRESS_STEP.TIMELINE}
       >
-        {uiStore.isMobile ? <TimelineMobile /> : <Timeline />}
+        <Timeline />
       </ScheduleStep>
       <ScheduleStep
         backButton={true}

@@ -7,7 +7,7 @@ import { timelineHeight } from '../../../shared/style'
 import { Interval } from '../../../models/Inteval';
 import { BusinessHours } from '../../../models/Time';
 import { extractIntervals } from '../../../shared/util/interval';
-import { IntervalButton } from './IntervalButton';
+import { IntervalButton } from './components/IntervalButton';
 
 interface Props {
     businessHours: BusinessHours;
@@ -16,7 +16,7 @@ interface Props {
     setSelectedInterval: (interval: Interval) => void;
 }
 
-export const TimelineIntervals: React.FC<Props> = ({
+export const TimelineIntervalsList: React.FC<Props> = ({
     selectedDay,
     businessHours,
     setSelectedInterval,

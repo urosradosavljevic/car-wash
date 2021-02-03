@@ -14,7 +14,7 @@ interface Props {
 
 export const TimelineTimes: React.FC<Props> = observer(({ selectedInterval }) => {
 
-    const { vehicle, treatment, startTime: appStartTime, setStartTime } = useScheduleStore();
+    const { vehicle, treatment, startTime: selectedStartTime, setStartTime } = useScheduleStore();
 
     const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
 
@@ -33,7 +33,7 @@ export const TimelineTimes: React.FC<Props> = observer(({ selectedInterval }) =>
 
             const btnClassNames = clsx(
                 styles.time__btn,
-                compareTimes(appStartTime!, startTime) && styles.time_selected
+                compareTimes(selectedStartTime!, startTime) && styles.time_selected
             );
 
             posibleTimes.push(
@@ -54,14 +54,12 @@ export const TimelineTimes: React.FC<Props> = observer(({ selectedInterval }) =>
 
         return posibleTimes;
     }
-    
     return (
         <div className={styles.times_container}>
 
             <h3>Available times for period</h3>
 
             {selectedInterval &&
-            
                 <div>
                     {parseTimeNumber(selectedInterval?.startTime)} - {parseTimeNumber(selectedInterval?.endTime)}
                 </div>

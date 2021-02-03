@@ -4,7 +4,7 @@ import styles from './Timeline.module.scss'
 import { Interval } from '../../../models/Inteval'
 import { TimelineTimes } from './TimelineTimes';
 import { TimelineBackground } from './TimelineBackground'
-import { TimelineIntervals } from './TimelineIntervals'
+import { TimelineIntervalsList } from './TimelineIntervalsList'
 import { useScheduleStore } from '../../../shared/providers/RootStoreProvider';
 import { observer } from 'mobx-react-lite';
 
@@ -20,7 +20,7 @@ export const Timeline: React.FC = observer(() => {
 
                 <TimelineBackground businessHours={businessHours} />
 
-                <TimelineIntervals
+                <TimelineIntervalsList
                     businessHours={businessHours}
                     selectedDay={selectedDay}
                     selectedInterval={selectedInterval}
