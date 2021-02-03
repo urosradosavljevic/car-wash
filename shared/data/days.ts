@@ -4,17 +4,17 @@ import { Appointement } from "../../models/Appointement";
 export const businessHours = { open: 7, closed: 19 };
 
 export const day: Array<Appointement> = [
-  // {
-  //   client: {
-  //     name: "John",
-  //     phoneNumber: "+384",
-  //   },
-  //   treatment: treatments.car.inside,
-  //   start: {
-  //     hour: 7,
-  //     minutes: 0,
-  //   },
-  // },
+  {
+    client: {
+      name: "John",
+      phoneNumber: "+384",
+    },
+    treatment: treatments.car.inside,
+    start: {
+      hour: 7,
+      minutes: 0,
+    },
+  },
   {
     client: {
       name: "Mike",
@@ -68,6 +68,17 @@ export const day: Array<Appointement> = [
     start: {
       hour: 17,
       minutes: 0,
+    },
+  },
+  {
+    client: {
+      name: "Pavi",
+      phoneNumber: "+384",
+    },
+    treatment: treatments.car.inside,
+    start: {
+      hour: 18,
+      minutes: 30,
     },
   },
 ];

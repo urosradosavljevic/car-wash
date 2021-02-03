@@ -18,4 +18,7 @@ export const compareTimes = (time1: Time, time2: Time) => {
       return true;
     return false;
   }
+  return false;
 };
+
+export const parseTimeNumber = (time: number) => timeToString(numberToTime(time))

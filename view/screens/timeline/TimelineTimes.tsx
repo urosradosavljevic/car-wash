@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { observer } from 'mobx-react-lite';
 
 import styles from './Timeline.module.scss'
-import { compareTimes, numberToTime, timeToString } from '../../../shared/util/helpers';
+import { compareTimes, numberToTime, parseTimeNumber, timeToString } from '../../../shared/util/helpers';
 import { Interval } from '../../../models/Inteval';
 import { useScheduleStore } from '../../../shared/providers/RootStoreProvider';
 import treatments from '../../../shared/data/treatments';
@@ -54,14 +54,16 @@ export const TimelineTimes: React.FC<Props> = observer(({ selectedInterval }) =>
 
         return posibleTimes;
     }
+    
     return (
         <div className={styles.times_container}>
 
             <h3>Available times for period</h3>
 
             {selectedInterval &&
+            
                 <div>
-                    {timeToString(numberToTime(selectedInterval?.startTime))} - {timeToString(numberToTime(selectedInterval?.endTime))}
+                    {parseTimeNumber(selectedInterval?.startTime)} - {parseTimeNumber(selectedInterval?.endTime)}
                 </div>
             }
 
