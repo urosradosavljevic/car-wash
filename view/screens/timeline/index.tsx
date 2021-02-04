@@ -9,14 +9,16 @@ import { useScheduleStore, useUIStore } from '../../../shared/providers/RootStor
 import { observer } from 'mobx-react-lite';
 import { TimelineTimesAll } from './TimelineTimesAll';
 import { exportIntervalFromTime } from '../../../shared/util/interval';
+import treatments from '../../../shared/data/treatments';
 
 const Timeline: React.FC = observer(() => {
 
     const uiStore = useUIStore();
 
-    const { businessHours, selectedDaySchedule: selectedDay, startTime } = useScheduleStore();
+    const { businessHours, selectedDaySchedule: selectedDay, startTime, vehicle, treatment } = useScheduleStore();
     const [selectedInterval, setSelectedInterval] = useState<Interval | null>(exportIntervalFromTime(startTime, selectedDay))
 
+    const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
     return (
         <div className={styles.appointements_wrap}>
 
@@ -27,6 +29,7 @@ const Timeline: React.FC = observer(() => {
 
                     <TimelineIntervalsList
                         businessHours={businessHours}
+                        treatmentDuration={selectedTreatmentDuration}
                         selectedDay={selectedDay}
                         selectedInterval={selectedInterval}
                         setSelectedInterval={setSelectedInterval}

@@ -14,12 +14,14 @@ interface Props {
     businessHours: BusinessHours;
     selectedDay: Array<Appointement>;
     selectedInterval: Interval | null;
+    treatmentDuration: number,
     setSelectedInterval: (interval: Interval) => void;
 }
 
 export const TimelineIntervalsList: React.FC<Props> = ({
     selectedDay,
     businessHours,
+    treatmentDuration,
     setSelectedInterval,
     selectedInterval
 }) => {
@@ -29,7 +31,7 @@ export const TimelineIntervalsList: React.FC<Props> = ({
     const { open, closed } = businessHours
 
     useEffect(() => {
-        const inters = extractIntervals(selectedDay);
+        const inters = extractIntervals(selectedDay, treatmentDuration);
         setIntervals(inters)
     }, [selectedDay, businessHours])
 

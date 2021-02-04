@@ -23,23 +23,23 @@ export const TimelineTimesAll: React.FC = observer(() => {
         setStartTime
     } = useScheduleStore();
 
+    const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
 
     useEffect(() => {
-        const inters = extractIntervals(selectedDay);
+        const inters = extractIntervals(selectedDay, selectedTreatmentDuration);
         setIntervals(inters)
         console.log("mobile")
     }, [selectedDay, businessHours])
 
-    const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
 
     return (
         <div className={styles.times_container}  >
 
             <h3>Available times</h3>
 
-            <div >
+            <div>
 
-                {intervals.map((interval, idx) => (
+                {intervals.length > 0 ? intervals.map((interval, idx) => (
                     <div key={`interval-times-${idx}`}>
                         <div>
                             {parseTimeNumber(interval.startTime)} -
@@ -53,7 +53,7 @@ export const TimelineTimesAll: React.FC = observer(() => {
                             interval={interval}
                         />
                     </div>
-                ))}
+                )) : <div>Sorry, we currently don't have available termin for selected choice.</div>}
 
             </div>
 

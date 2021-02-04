@@ -5,7 +5,8 @@ import { businessHours } from "../data/days";
 import { appointementToHours, numberToTime } from "./helpers";
 
 export const extractIntervals = (
-    selectedDay: Array<Appointement>
+    selectedDay: Array<Appointement>,
+    treatmentDuration?: number
 ) => {
     const intervals = []
 
@@ -30,7 +31,6 @@ export const extractIntervals = (
         const appointementStartTime = (appointement.start.hour + appointement.start.minutes / 60)
         const appointementEndTime = appointementStartTime + (appointement.treatment.duration / 60)
 
-
         freeIntervalStart = formerIntervalEnd
         freeIntervalEnd = appointementStartTime
 
@@ -46,6 +46,11 @@ export const extractIntervals = (
 
     if (freeIntervalStart < freeIntervalEnd) {
         intervals.push({ startTime: freeIntervalStart, endTime: freeIntervalEnd })
+    }
+
+    // Don't show intervals shorter than treatment length    
+    if (treatmentDuration) {
+        return intervals.filter(interv => (interv.endTime - interv.startTime) >= treatmentDuration)
     }
 
     return intervals
