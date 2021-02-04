@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { StepsProgress } from '../../models/ProgressSteps';
 
-import { PROGRESS_STEP } from "../constants/progress";
+import { PROGRESS_STEP } from "../types/progress";
 
 const initialStepMap: StepsProgress = {
     login: false,

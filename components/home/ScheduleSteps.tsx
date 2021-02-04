@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { PROGRESS_STEP } from '../../shared/constants/progress'
+import { PROGRESS_STEP } from '../../shared/types/progress'
 
-import { Checkout } from '../../view/screens/checkout/Checkout';
-import { DateSelect } from '../../view/screens/date-select/DateSelect';
-import { Login } from '../../view/screens/login/Login'
+import Checkout from '../../view/screens/checkout';
+import DateSelect from '../../view/screens/date-select';
+import Login from '../../view/screens/login'
 import Timeline from '../../view/screens/timeline';
-import { TreatmentSelect } from '../../view/screens/treatment/Treatments';
+import TreatmentSelect from '../../view/screens/treatment';
 import { ScheduleStep } from './ScheduleStepNav';
 
 interface Props {

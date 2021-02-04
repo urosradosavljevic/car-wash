@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { PROGRESS_STEP } from "../constants/progress";
+import { PROGRESS_STEP } from "../types/progress";
 
 const initial = {
     current: PROGRESS_STEP.LOGIN,

@@ -8,7 +8,7 @@ import styles from './Treatment.module.scss'
 import { useScheduleStore } from '../../../shared/providers/RootStoreProvider';
 import { TreatmentOptions } from './TreatmentOptions';
 
-export const TreatmentSelect: React.FC = observer(() => {
+const TreatmentSelect: React.FC = observer(() => {
     const { vehicle, treatment, date, setVehicle, setTreatment } = useScheduleStore()
     const selectedTreatment = treatments[vehicle][treatment]
 
@@ -45,3 +45,5 @@ export const TreatmentSelect: React.FC = observer(() => {
         </div>
     );
 })
+
+export default TreatmentSelect;

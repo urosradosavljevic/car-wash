@@ -67,14 +67,7 @@
     }
   }
 
-  .progress__list_item_done span {
-    background-color: color(light);
-    transform: all 0.5s ease;
-    svg {
-      color: color(dark);
-    }
-  }
-  .progress__list_item_current.progress__list_item::after {
+  .progress__list_item::after {
     content: "";
     position: absolute;
     top: -0.5rem;
@@ -84,6 +77,23 @@
 
     border: solid color(light) 0.5rem;
     border-radius: 50%;
-    transform: all 0.5s ease;
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0.1);
+    transition: visibility 0.5s, transform 0.5s, opacity 0.5s ease-in-out;
+  }
+  .progress__list_item_done span {
+    background-color: color(light);
+    position: relative;
+    z-index: 2;
+    svg {
+      color: color(dark);
+    }
+  }
+  .progress__list_item_current.progress__list_item::after {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+    transition: visibility 0.5s, transform 0.5s, opacity 0.5s ease-in-out;
   }
 }

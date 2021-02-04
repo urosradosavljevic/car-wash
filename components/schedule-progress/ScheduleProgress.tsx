@@ -8,7 +8,7 @@ import { AiOutlineSchedule } from 'react-icons/ai/';
 import clsx from 'clsx';
 
 import styles from './ScheduleProgress.module.scss'
-import { PROGRESS_STEP } from '../../shared/constants/progress';
+import { PROGRESS_STEP } from '../../shared/types/progress';
 import { useUIStore } from '../../shared/providers/RootStoreProvider';
 
 interface Props {

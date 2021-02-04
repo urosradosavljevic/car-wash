@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite'
 
 import { useProgressContext } from '../../../shared/context/ProgressContext'
 import styles from './Login.module.scss'
-import { PROGRESS_STEP } from '../../../shared/constants/progress'
+import { PROGRESS_STEP } from '../../../shared/types/progress'
 import { useUIStore } from '../../../shared/providers/RootStoreProvider'
 
 const Loader = () => <Load
@@ -15,7 +15,7 @@ const Loader = () => <Load
     timeout={1000}
 />
 
-export const Login: React.FC = observer(() => {
+const Login: React.FC = observer(() => {
     const uiStore = useUIStore();
     const { nextStep } = useProgressContext();
 
@@ -52,3 +52,5 @@ export const Login: React.FC = observer(() => {
         <button type="submit" className={styles.login_btn} onClick={tryLogin}>{loading ? <Loader /> : "Login"}</button>
     </div>);
 })
+
+export default Login;

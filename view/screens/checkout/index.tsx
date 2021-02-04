@@ -8,7 +8,7 @@ import { useScheduleStore } from "../../../shared/providers/RootStoreProvider"
 import { timeToString } from '../../../shared/util/helpers';
 import treatments from '../../../shared/data/treatments';
 
-export const Checkout: React.FC = observer(() => {
+const Checkout: React.FC = observer(() => {
     const { client, date, startTime, vehicle, treatment } = useScheduleStore();
 
     const process = treatments[vehicle][treatment].process;
@@ -53,3 +53,5 @@ export const Checkout: React.FC = observer(() => {
         </div>
     </div>);
 })
+
+export default Checkout;

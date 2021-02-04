@@ -1,6 +1,6 @@
 import { observable, action, makeObservable } from "mobx"
 
-import { PROGRESS_STEP } from "../constants/progress";
+import { PROGRESS_STEP } from "../types/progress";
 import { RootStore } from "./RootStore";
 
 const initialProgressMap = {

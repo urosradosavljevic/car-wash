@@ -6,7 +6,7 @@ import styles from './DateSelect.module.scss'
 import { useScheduleStore, useUIStore } from '../../../shared/providers/RootStoreProvider';
 
 
-export const DateSelect: React.FC = observer(() => {
+const DateSelect: React.FC = observer(() => {
 
     const uiStore = useUIStore()
     const { date, setDate } = useScheduleStore();
@@ -32,3 +32,5 @@ export const DateSelect: React.FC = observer(() => {
         </div>
     );
 })
+
+export default DateSelect;
