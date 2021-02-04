@@ -47,7 +47,7 @@ const Checkout: React.FC = observer(() => {
                 <span>Treatment Details:</span>
                 <p>{process.description}</p>
                 <ul>
-                    {process.steps.map(step => (<li>{step}</li>))}
+                    {process.steps.map((step, idx) => (<li key={`step-${idx}`}>{step}</li>))}
                 </ul>
             </div>
         </div>

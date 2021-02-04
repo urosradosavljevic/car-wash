@@ -1,5 +1,6 @@
 import { Appointement } from "../../models/Appointement";
 import { Interval } from "../../models/Inteval";
+import { Time } from "../../models/Time";
 import { businessHours } from "../data/days";
 import { appointementToHours, numberToTime } from "./helpers";
 
@@ -8,7 +9,7 @@ export const extractIntervals = (
 ) => {
     const intervals = []
 
-    const appointements = selectedDay.sort((a, b) => {
+    const appointements = selectedDay.slice().sort((a, b) => {
         if (appointementToHours(a) < appointementToHours(b)) return -1;
         if (appointementToHours(a) > appointementToHours(b)) return 1;
         return 0;
@@ -71,4 +72,11 @@ export const extractPosibleTimes = (
     }
 
     return posibleTimes;
+}
+
+export const exportIntervalFromTime = (time: Time | undefined, day: Array<Appointement>) => {
+    if (!time) return null
+    const timeH = time.hour + (time.minutes / 60)
+    const found = extractIntervals(day).find(interval => interval.endTime > timeH && timeH >= interval.startTime)
+    return found ? found : null
 }

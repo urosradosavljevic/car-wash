@@ -8,13 +8,14 @@ import { TimelineIntervalsList } from './TimelineIntervalsList'
 import { useScheduleStore, useUIStore } from '../../../shared/providers/RootStoreProvider';
 import { observer } from 'mobx-react-lite';
 import { TimelineTimesAll } from './TimelineTimesAll';
+import { exportIntervalFromTime } from '../../../shared/util/interval';
 
 const Timeline: React.FC = observer(() => {
 
     const uiStore = useUIStore();
 
-    const { businessHours, selectedDaySchedule: selectedDay } = useScheduleStore();
-    const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null)
+    const { businessHours, selectedDaySchedule: selectedDay, startTime } = useScheduleStore();
+    const [selectedInterval, setSelectedInterval] = useState<Interval | null>(exportIntervalFromTime(startTime, selectedDay))
 
     return (
         <div className={styles.appointements_wrap}>
