@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import clsx from 'clsx';
 
-import styles from './Timeline.module.scss'
+import styles from '../Timeline.module.scss'
 import { Time } from '../../../../models/Time';
 import { timeToString } from '../../../../shared/util/helpers';
 
@@ -26,7 +26,7 @@ export const TimeButton: FC<Props> = ({
     return (
         <div
             role="button"
-            onClick={() => onClick}
+            onClick={onClick}
             className={btnClassNames}
             {...props}
         >

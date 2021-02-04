@@ -8,6 +8,7 @@ import { Interval } from '../../../models/Inteval';
 import { BusinessHours } from '../../../models/Time';
 import { extractIntervals } from '../../../shared/util/interval';
 import { IntervalButton } from './components/IntervalButton';
+import { compareIntervals } from '../../../shared/util/helpers';
 
 interface Props {
     businessHours: BusinessHours;
@@ -25,6 +26,8 @@ export const TimelineIntervalsList: React.FC<Props> = ({
     const [intervals, setIntervals] = useState<Array<Interval>>([])
     const [pixelsPerHour, setPixelsPerHour] = useState<number>(17)
 
+    const { open, closed } = businessHours
+
     useEffect(() => {
         const inters = extractIntervals(selectedDay);
         setIntervals(inters)
@@ -32,30 +35,25 @@ export const TimelineIntervalsList: React.FC<Props> = ({
 
     useEffect(() => {
         // calculate pixels per hour based on timeline height
-        setPixelsPerHour((old) => {
-            if (old !== pixelsPerHour) {
-                return Math.floor(timelineHeight / (businessHours.closed - businessHours.open))
-            } else {
-                return old;
-            }
-        })
+        setPixelsPerHour(Math.floor(timelineHeight / (closed - open)))
     }, [timelineHeight, businessHours])
 
     return (
         <div className={styles.timeline__add_wrap}>
             {intervals.map((interval, index) => {
+                const { startTime, endTime } = interval
 
                 // calculate button dimensions
-                const topPosition = Math.floor(interval.startTime * pixelsPerHour)
+                const topPosition = Math.floor((startTime - open) * pixelsPerHour)
 
-                const height = Math.floor(interval.endTime * pixelsPerHour - topPosition)
+                const height = Math.floor(((endTime - open) * pixelsPerHour) - topPosition)
 
                 // Don't show intervals shorter than 15min
                 if (height < pixelsPerHour / 4) return null
 
                 const intervalClassNames = clsx(
                     styles.timeline__add,
-                    index === selectedInterval?.index && styles.selected
+                    compareIntervals(interval, selectedInterval) && styles.selected
                 )
 
                 return (<IntervalButton

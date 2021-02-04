@@ -1,7 +1,7 @@
 import React from 'react'
-import { BusinessHours } from '../../../models/Time'
+import { BusinessHours } from '../../../../models/Time'
 
-import styles from './Timeline.module.scss'
+import styles from '../Timeline.module.scss'
 
 interface Props {
     businessHours: BusinessHours;

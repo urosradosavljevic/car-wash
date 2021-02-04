@@ -7,9 +7,13 @@ import styles from './Timeline.module.scss'
 import { Interval } from '../../../models/Inteval'
 import { useScheduleStore } from '../../../shared/providers/RootStoreProvider'
 import { extractIntervals } from '../../../shared/util/interval';
-import { TimeButtonsList } from './TimeButtonsList';
+import { TimeButtonsList } from './components/TimeButtonsList';
+import { parseTimeNumber } from '../../../shared/util/helpers';
 
-export const TimelineMobile: React.FC = observer(() => {
+export const TimelineTimesAll: React.FC = observer(() => {
+
+    const [intervals, setIntervals] = useState<Array<Interval>>([])
+
     const {
         vehicle,
         businessHours,
@@ -19,33 +23,37 @@ export const TimelineMobile: React.FC = observer(() => {
         setStartTime
     } = useScheduleStore();
 
-    const [intervals, setIntervals] = useState<Array<Interval>>([])
 
     useEffect(() => {
         const inters = extractIntervals(selectedDay);
         setIntervals(inters)
+        console.log("mobile")
     }, [selectedDay, businessHours])
 
     const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
 
     return (
-        <div className={styles.appointements_wrap}>
+        <div className={styles.times_container}  >
 
-            <div className={styles.times_container}>
+            <h3>Available times</h3>
 
-                <h3>Available times</h3>
-                <div className={styles.mobile__times_wrap}>
+            <div >
 
-                    {intervals.map(interval => (
+                {intervals.map((interval, idx) => (
+                    <div key={`interval-times-${idx}`}>
+                        <div>
+                            {parseTimeNumber(interval.startTime)} -
+                                {parseTimeNumber(interval.endTime)}
+                        </div>
+
                         <TimeButtonsList
                             selectedTime={selectedStartTime}
                             treatmentDuration={selectedTreatmentDuration}
                             setStartTime={setStartTime}
                             interval={interval}
                         />
-                    ))}
-
-                </div>
+                    </div>
+                ))}
 
             </div>
 
