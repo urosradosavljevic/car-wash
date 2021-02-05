@@ -5,7 +5,7 @@ import { ClientData } from "../../models/ClientData";
 import { BusinessHours, Time } from "../../models/Time";
 import { Treatment } from "../../models/Treatment";
 import { Vehicle } from "../../models/Vehicle";
-import { businessHours, day as pseudoSelectedDay } from "../data/days";
+import { appointementService } from "../../services/AppointementService";
 import { RootStore } from "./RootStore";
 
 
@@ -55,20 +55,11 @@ export class ScheduleStore {
     }
 
     fetchBusinessHours = () => {
-        // fetch day schedule from db
-        // const response = fetchBusinessHours()
-        // const {businessHours} = response
-        // this.businessHours = businessHours
-        this.businessHours = businessHours
+        this.businessHours = appointementService.fetchBusinesDays()
     }
 
     fetchDaySchedule = () => {
-        // fetch day schedule from db
-        // const response = fetchScheduleForDay(this.date)
-        // const {schedule} = response
-        // this.selectedDaySchedule = schedule
-        console.log("selectedDaySchedule fetched")
-        this.selectedDaySchedule = pseudoSelectedDay
+        this.selectedDaySchedule = appointementService.fetchAppointements()
     }
 
     setVehicle = (vehicle: Vehicle) => {

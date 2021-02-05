@@ -8,15 +8,17 @@ import { TimelineIntervalsList } from './TimelineIntervalsList'
 import { useScheduleStore, useUIStore } from '../../../shared/providers/RootStoreProvider';
 import { observer } from 'mobx-react-lite';
 import { TimelineTimesAll } from './TimelineTimesAll';
-import { exportIntervalFromTime } from '../../../shared/util/interval';
 import treatments from '../../../shared/data/treatments';
+import { intervalService } from '../../../services/intervalService';
 
 const Timeline: React.FC = observer(() => {
 
     const uiStore = useUIStore();
 
     const { businessHours, selectedDaySchedule: selectedDay, startTime, vehicle, treatment } = useScheduleStore();
-    const [selectedInterval, setSelectedInterval] = useState<Interval | null>(exportIntervalFromTime(startTime, selectedDay))
+
+    const initial = intervalService.exportIntervalFromTime(startTime, businessHours, selectedDay)
+    const [selectedInterval, setSelectedInterval] = useState<Interval | null>(initial)
 
     const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
     return (

@@ -6,6 +6,7 @@ import { extractPosibleTimes } from '../../../../shared/util/interval';
 import { Interval } from '../../../../models/Inteval';
 import { compareTimes } from '../../../../shared/util/helpers';
 import { TimeButton } from './TimeButton';
+import { timeService } from '../../../../services/timeService';
 
 interface Props {
     interval: Interval;
@@ -24,7 +25,7 @@ export const TimeButtonsList: React.FC<Props> = ({
     const [times, setTimes] = useState<Array<Time>>([])
 
     useEffect(() => {
-        const tims = extractPosibleTimes(interval, treatmentDuration);
+        const tims = timeService.extractPosibleTimes(interval, treatmentDuration);
         setTimes(tims)
     }, [interval, treatmentDuration])
 

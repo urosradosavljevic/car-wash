@@ -1,6 +1,5 @@
 import { Time } from "../../models/Time";
 import { Appointement } from "../../models/Appointement";
-import { Interval } from "../../models/Inteval";
 
 export const appointementToHours = (appointement: Appointement) =>
   appointement.start.hour + appointement.start.minutes / 60;
@@ -22,16 +21,6 @@ export const compareTimes = (time1: Time | undefined, time2: Time | undefined) =
   return false;
 };
 
-type CompareInterval = Interval | undefined | null
 
-export const compareIntervals = (interval1: CompareInterval, interval2: CompareInterval) => {
-  if (interval1 && interval2) {
-    if (interval1.startTime === interval2.startTime &&
-      interval1.endTime === interval2.endTime)
-      return true;
-    return false;
-  }
-  return false;
-};
 
 export const parseTimeNumber = (time: number) => timeToString(numberToTime(time))

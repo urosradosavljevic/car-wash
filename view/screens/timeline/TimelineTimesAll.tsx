@@ -6,9 +6,9 @@ import treatments from '../../../shared/data/treatments'
 import styles from './Timeline.module.scss'
 import { Interval } from '../../../models/Inteval'
 import { useScheduleStore } from '../../../shared/providers/RootStoreProvider'
-import { extractIntervals } from '../../../shared/util/interval';
 import { TimeButtonsList } from './components/TimeButtonsList';
 import { parseTimeNumber } from '../../../shared/util/helpers';
+import { intervalService } from '../../../services/intervalService';
 
 export const TimelineTimesAll: React.FC = observer(() => {
 
@@ -26,7 +26,7 @@ export const TimelineTimesAll: React.FC = observer(() => {
     const selectedTreatmentDuration = (treatments[vehicle][treatment].duration / 60);
 
     useEffect(() => {
-        const inters = extractIntervals(selectedDay, selectedTreatmentDuration);
+        const inters = intervalService.extractIntervals(selectedDay, businessHours, selectedTreatmentDuration);
         setIntervals(inters)
         console.log("mobile")
     }, [selectedDay, businessHours])
