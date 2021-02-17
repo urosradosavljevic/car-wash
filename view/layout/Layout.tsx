@@ -33,10 +33,6 @@ export const Layout: React.FC<Props> = observer(({ children, title }) => {
                 {!uiStore.isMobile ? <Menu /> : <MobileMenu />}
                 {children}
             </div>
-            {/* <footer >
-             <img src="/car.svg" alt="Car Logo" className={styles.logo} /> 
-<img src="/car.svg" alt="Car Logo" />
-        </footer > */}
         </>
 
     )

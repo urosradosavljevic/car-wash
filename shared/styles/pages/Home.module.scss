@@ -9,8 +9,26 @@
   background-color: color(dark);
   overflow: auto;
 
+  &.login {
+    grid-template-rows: auto auto 1fr auto;
+  }
+
   button {
     cursor: pointer;
+  }
+
+  .charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 40vh;
+    width: 100%;
+    height: auto;
+    margin: auto;
+
+    &.mobile {
+      grid-template-columns: 1fr;
+      grid-template-rows: 25vh 25vh;
+    }
   }
 }
 .main {
